@@ -2,9 +2,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "devCommand": "npm run dev",
-  "env": {
-    "SITE_URL": "@site_url"
-  },
   "headers": [
     {
       "source": "/(.*)",
