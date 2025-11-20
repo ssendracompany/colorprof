@@ -1,0 +1,125 @@
+---
+import '@/styles/components/header.css';
+---
+
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <a href="/" class="header-logo">
+        <img
+          src="/logo4.1.png"
+          alt="Logo de Profesionales del Color"
+          class="logo-image"
+        />
+        <span class="logo-text">
+          <span class="logo-text-main">Profesionales</span>
+          <span class="logo-text-sub">del Color</span>
+        </span>
+      </a>
+
+      <nav class="header-nav" aria-label="Navegación principal">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#servicios" class="nav-link">Servicios</a>
+          </li>
+          <li class="nav-item">
+            <a href="#galeria" class="nav-link">Galería</a>
+          </li>
+          <li class="nav-item">
+            <a href="#faq" class="nav-link">Preguntas</a>
+          </li>
+          <li class="nav-item">
+            <a href="#contacto" class="nav-link">Contacto</a>
+          </li>
+        </ul>
+      </nav>
+
+      <button
+        class="mobile-menu-toggle"
+        aria-label="Abrir menú de navegación"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <span class="hamburger">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Navigation (outside header to avoid stacking context issues) -->
+<nav
+  class="mobile-nav"
+  id="mobile-nav"
+  aria-label="Navegación móvil"
+  hidden
+>
+  <ul class="mobile-nav-list">
+    <li class="mobile-nav-item">
+      <a href="#servicios" class="mobile-nav-link">Servicios</a>
+    </li>
+    <li class="mobile-nav-item">
+      <a href="#galeria" class="mobile-nav-link">Galería</a>
+    </li>
+    <li class="mobile-nav-item">
+      <a href="#faq" class="mobile-nav-link">Preguntas</a>
+    </li>
+    <li class="mobile-nav-item">
+      <a href="#contacto" class="mobile-nav-link">Contacto</a>
+    </li>
+  </ul>
+</nav>
+
+<script>
+  // Mobile menu toggle functionality
+  const toggle = document.querySelector('.mobile-menu-toggle');
+  const mobileNav = document.querySelector('#mobile-nav');
+
+  console.log('Toggle:', toggle);
+  console.log('Mobile Nav:', mobileNav);
+
+  if (toggle && mobileNav) {
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      console.log('Clicked! isExpanded:', isExpanded);
+
+      toggle.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+      mobileNav.hidden = isExpanded;
+
+      console.log('After toggle - hidden:', mobileNav.hidden);
+      console.log('Mobile nav styles:', window.getComputedStyle(mobileNav).display);
+      console.log('Mobile nav z-index:', window.getComputedStyle(mobileNav).zIndex);
+
+      // Prevent body scroll when menu is open
+      if (!isExpanded) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Close menu when clicking on a link
+    const mobileLinks = mobileNav.querySelectorAll('.mobile-nav-link');
+    mobileLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        mobileNav.hidden = true;
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Close menu on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !mobileNav.hidden) {
+        toggle.setAttribute('aria-expanded', 'false');
+        mobileNav.hidden = true;
+        document.body.style.overflow = '';
+      }
+    });
+  } else {
+    console.error('Toggle or mobileNav not found!');
+  }
+</script>

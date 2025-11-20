@@ -1,0 +1,212 @@
+/* ============================================================================
+   FAQ Component Styles
+   Mobile-First Responsive Design
+   ============================================================================ */
+
+.faq {
+  width: 100%;
+  padding: var(--spacing-2xl) 0;
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq .container {
+  padding: var(--spacing-md);
+}
+
+.faq-title {
+  font-size: var(--font-size-h2);
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text);
+}
+
+.faq-description {
+  text-align: center;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-2xl);
+  font-size: var(--font-size-lg);
+}
+
+/* FAQ List */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* FAQ Item */
+.faq-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+.faq-item:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 12px rgba(255, 122, 0, 0.05);
+}
+
+/* FAQ Question Button */
+.faq-question {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-background-secondary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  transition: background-color var(--transition-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.faq-question:hover {
+  background-color: var(--color-background-tertiary);
+}
+
+.faq-question:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.faq-question[aria-expanded="true"] {
+  background-color: var(--color-background-tertiary);
+  color: var(--color-accent);
+}
+
+.faq-question-text {
+  text-align: left;
+  flex-grow: 1;
+}
+
+/* FAQ Toggle Icon */
+.faq-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  transition: transform var(--transition-base);
+  color: var(--color-accent);
+}
+
+.faq-question[aria-expanded="true"] .faq-toggle-icon {
+  transform: rotate(45deg);
+}
+
+/* FAQ Answer */
+.faq-answer {
+  padding: var(--spacing-sm);
+  background-color: var(--color-background);
+  color: var(--color-text-secondary);
+  border-top: 1px solid var(--color-border);
+  animation: slideDown var(--transition-base) ease-out forwards;
+  font-size: var(--font-size-sm);
+}
+
+.faq-answer[hidden] {
+  display: none;
+}
+
+.faq-answer p {
+  line-height: var(--line-height-normal);
+  margin-bottom: 0;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tablet: 840px and up */
+@media (min-width: 840px) {
+  .faq {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .faq .container {
+    padding: var(--spacing-lg);
+  }
+
+  .faq-list {
+    gap: 0.25rem;
+  }
+
+  .faq-item {
+    border-radius: var(--border-radius-xl);
+  }
+
+  .faq-question {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-md);
+  }
+
+  .faq-answer {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .faq-title {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .faq-description {
+    margin-bottom: var(--spacing-3xl);
+  }
+}
+
+/* Desktop: 1024px and up */
+@media (min-width: 1024px) {
+  .faq-title {
+    font-size: var(--font-size-h1);
+  }
+
+  .faq-question {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* Large Desktop: 1440px and up */
+@media (min-width: 1440px) {
+  .faq .container {
+    padding: var(--spacing-xl);
+  }
+
+  .faq-list {
+    gap: 0.25rem;
+  }
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .faq-item {
+    transition: none;
+  }
+
+  .faq-question {
+    transition: none;
+  }
+
+  .faq-toggle-icon {
+    transition: none;
+  }
+
+  .faq-answer {
+    animation: none;
+  }
+}

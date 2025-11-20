@@ -1,0 +1,171 @@
+---
+import '@/styles/components/gallery.css';
+
+const portfolioItems = [
+  {
+    id: 1,
+    title: 'Sala de Estar Moderna',
+    category: 'Interior',
+    image: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&h=600&fit=crop'
+  },
+  {
+    id: 2,
+    title: 'Fachada Restaurada',
+    category: 'Exterior',
+    image: 'https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?w=800&h=600&fit=crop'
+  },
+  {
+    id: 3,
+    title: 'Cocina Personalizada',
+    category: 'Interior',
+    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop'
+  },
+  {
+    id: 4,
+    title: 'Dormitorio Elegante',
+    category: 'Interior',
+    image: 'https://images.unsplash.com/photo-1540932239986-a128078a3520?w=800&h=600&fit=crop'
+  }
+];
+---
+
+<section id="galeria" class="gallery">
+  <div class="container">
+    <h2 class="gallery-title">Galería de Trabajos</h2>
+    <p class="gallery-description">Algunos de nuestros proyectos realizados</p>
+
+    <div class="gallery-carousel" data-carousel>
+      <div class="carousel-track">
+        {
+          portfolioItems.map((item) => (
+            <div class="carousel-slide">
+              <div class="gallery-item">
+                <div class="gallery-image-wrapper">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    class="gallery-image"
+                    loading="lazy"
+                  />
+                  <div class="gallery-overlay">
+                    <div class="gallery-info">
+                      <h3 class="gallery-item-title">{item.title}</h3>
+                      <p class="gallery-category">{item.category}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Carousel Controls -->
+      <button
+        class="carousel-button carousel-button--prev"
+        aria-label="Anterior"
+        data-carousel-prev
+      >
+        ←
+      </button>
+      <button
+        class="carousel-button carousel-button--next"
+        aria-label="Siguiente"
+        data-carousel-next
+      >
+        →
+      </button>
+
+      <!-- Carousel Indicators -->
+      <div class="carousel-indicators">
+        {
+          portfolioItems.map((item, index) => (
+            <button
+              class={`carousel-indicator ${index === 0 ? 'active' : ''}`}
+              aria-label={`Ir a imagen ${index + 1}`}
+              data-carousel-indicator={index}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Carousel functionality
+  class Carousel {
+    constructor(element) {
+      this.carousel = element;
+      this.track = element.querySelector('.carousel-track');
+      this.slides = element.querySelectorAll('.carousel-slide');
+      this.prevBtn = element.querySelector('[data-carousel-prev]');
+      this.nextBtn = element.querySelector('[data-carousel-next]');
+      this.indicators = element.querySelectorAll('[data-carousel-indicator]');
+
+      this.currentIndex = 0;
+      this.slideWidth = this.slides[0]?.offsetWidth || 0;
+
+      this.init();
+    }
+
+    init() {
+      this.prevBtn.addEventListener('click', () => this.previousSlide());
+      this.nextBtn.addEventListener('click', () => this.nextSlide());
+
+      this.indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => this.goToSlide(index));
+      });
+
+      // Update on window resize
+      window.addEventListener('resize', () => {
+        this.slideWidth = this.slides[0]?.offsetWidth || 0;
+        this.updateSlidePosition();
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') this.previousSlide();
+        if (e.key === 'ArrowRight') this.nextSlide();
+      });
+    }
+
+    updateSlidePosition() {
+      const offset = this.currentIndex * -this.slideWidth;
+      this.track.style.transform = `translateX(${offset}px)`;
+    }
+
+    nextSlide() {
+      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+      this.updateIndicators();
+      this.updateSlidePosition();
+    }
+
+    previousSlide() {
+      this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+      this.updateIndicators();
+      this.updateSlidePosition();
+    }
+
+    goToSlide(index) {
+      this.currentIndex = index;
+      this.updateIndicators();
+      this.updateSlidePosition();
+    }
+
+    updateIndicators() {
+      this.indicators.forEach((indicator, index) => {
+        if (index === this.currentIndex) {
+          indicator.classList.add('active');
+        } else {
+          indicator.classList.remove('active');
+        }
+      });
+    }
+  }
+
+  const carouselElement = document.querySelector('[data-carousel]');
+  if (carouselElement) {
+    new Carousel(carouselElement);
+  }
+</script>

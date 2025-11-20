@@ -1,0 +1,157 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="Términos y Condiciones | Profesionales del Color" description="Términos y condiciones de uso de Profesionales del Color">
+  <main id="main" class="legal-page">
+    <section class="legal-container">
+      <h1>Términos y Condiciones</h1>
+      <p class="last-updated">Última actualización: Noviembre 2024</p>
+
+      <div class="legal-content">
+        <h2>1. Aceptación de Términos</h2>
+        <p>
+          Al acceder y utilizar este sitio web, aceptas estar vinculado por estos Términos y Condiciones. Si no aceptas ninguno de estos términos, no utilices este sitio.
+        </p>
+
+        <h2>2. Uso del Sitio Web</h2>
+        <p>
+          Te comprometes a utilizar este sitio web solo para fines legales y de manera que no infrinja los derechos de otros ni restrinja su uso y disfrute del sitio.
+        </p>
+        <p>Específicamente, se prohíbe:</p>
+        <ul>
+          <li>Acosar o causar vergüenza a otros usuarios</li>
+          <li>Interferir con la normal operación del sitio</li>
+          <li>Obtener información no autorizada</li>
+          <li>Intentar acceder a sistemas restringidos</li>
+        </ul>
+
+        <h2>3. Servicios de Pintura</h2>
+        <p>
+          Profesionales del Color ofrece servicios profesionales de pintura para interior, exterior y decoración. Los presupuestos se proporcionan sin obligación.
+        </p>
+
+        <h2>4. Limitación de Responsabilidad</h2>
+        <p>
+          Este sitio web se proporciona "tal cual" sin garantías de ningún tipo. Profesionales del Color no será responsable por daños indirectos, incidentales, especiales o consecuentes derivados del uso o incapacidad de uso del sitio.
+        </p>
+
+        <h2>5. Garantía de Trabajos</h2>
+        <p>
+          Garantizamos la calidad de nuestros trabajos por un periodo de 24 meses desde la finalización del mismo. La garantía cubre defectos de mano de obra no causados por factores externos.
+        </p>
+        <p>
+          La garantía no cubre: desgaste normal, cambios climáticos extremos, mantenimiento insuficiente, o daño causado por terceros.
+        </p>
+
+        <h2>6. Propiedad Intelectual</h2>
+        <p>
+          Todo contenido en este sitio, incluyendo textos, imágenes y gráficos, es propiedad de Profesionales del Color y está protegido por derechos de autor. No puedes reproducir o distribuir contenido sin permiso.
+        </p>
+
+        <h2>7. Enlaces Externos</h2>
+        <p>
+          Este sitio puede contener enlaces a sitios web de terceros. No somos responsables del contenido, precisión o prácticas de privacidad de sitios externos.
+        </p>
+
+        <h2>8. Modificación de Términos</h2>
+        <p>
+          Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios serán efectivos inmediatamente después de su publicación en el sitio.
+        </p>
+
+        <h2>9. Ley Aplicable</h2>
+        <p>
+          Estos Términos y Condiciones se rigen por las leyes de España. Cualquier disputa se resolverá en los juzgados competentes de Valencia.
+        </p>
+
+        <h2>10. Contacto</h2>
+        <p>
+          Para preguntas sobre estos Términos y Condiciones:
+          <br />
+          <strong>Email:</strong> info@profesionalesdelcolor.com
+          <br />
+          <strong>Teléfono:</strong> +34 638 94 39 62
+          <br />
+          <strong>Ubicación:</strong> Gandía, Valencia
+        </p>
+      </div>
+
+      <a href="/" class="back-link">← Volver al inicio</a>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .legal-page {
+    background-color: var(--color-background);
+    padding: var(--spacing-2xl) 0;
+    min-height: calc(100vh - 200px);
+  }
+
+  .legal-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+  }
+
+  h1 {
+    font-size: var(--font-size-h1);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+    text-align: center;
+  }
+
+  .last-updated {
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .legal-content {
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text);
+  }
+
+  .legal-content h2 {
+    font-size: var(--font-size-h3);
+    color: var(--color-text);
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .legal-content p {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-secondary);
+  }
+
+  .legal-content ul {
+    margin-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .legal-content li {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: var(--spacing-2xl);
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: var(--font-weight-semibold);
+    transition: color var(--transition-base);
+  }
+
+  .back-link:hover {
+    color: var(--color-accent-hover);
+  }
+
+  @media (min-width: 840px) {
+    .legal-container {
+      padding: var(--spacing-2xl);
+    }
+  }
+</style>

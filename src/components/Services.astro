@@ -1,0 +1,77 @@
+---
+import '@/styles/components/services.css';
+
+const services = [
+  {
+    id: 1,
+    title: 'Pintura Interior',
+    description: 'Transformamos tus espacios interiores con acabados profesionales',
+    icon: '🏠',
+    features: [
+      'Pinturas blancas y de color (200+ colores)',
+      'Alisados y eliminación de gotelé',
+      'Papel pintado decorativo',
+      'Decoración personalizada (empapelado, esponjas, estampados, vinilos)',
+      'Restauración de puertas y muebles',
+      'Tratamiento de humedades interiores',
+      'Marcas profesionales: ISAVAL, JUNO, CAPAROL'
+    ]
+  },
+  {
+    id: 2,
+    title: 'Pintura Exterior',
+    description: 'Protegemos y embellecemos fachadas con materiales de primera calidad',
+    icon: '🏢',
+    features: [
+      'Rehabilitación de fachadas',
+      'Microcementos y revestimientos',
+      'Impermeabilización profesional',
+      'Imprimaciones para superficies porosas',
+      'Limpieza con técnicas de presión de agua',
+      'Pinturas resistentes a clima (lluvia, UV)',
+      'Especialistas en monocapas y caravista'
+    ]
+  },
+  {
+    id: 3,
+    title: 'Pintura Industrial',
+    description: 'Soluciones especializadas para proyectos industriales y comerciales',
+    icon: '🏭',
+    features: [
+      'Pinturas intumescentes (protección al fuego)',
+      'Estructuras metálicas y logos',
+      'Protección anticorrosiva',
+      'Suelos industriales y garajes',
+      'Impermeabilización de cubiertas y terrazas',
+      'Tratamientos especializados'
+    ]
+  }
+];
+---
+
+<section id="servicios" class="services">
+  <div class="container">
+    <h2 class="services-title">Nuestros Servicios</h2>
+    <p class="services-description">Oferecemos soluciones completas de pintura para todos tus proyectos</p>
+
+    <div class="services-grid">
+      {
+        services.map((service) => (
+          <div class="service-card">
+            <div class="service-icon">{service.icon}</div>
+            <h3 class="service-title">{service.title}</h3>
+            <p class="service-description">{service.description}</p>
+            <ul class="service-features">
+              {service.features.map((feature) => (
+                <li class="service-feature">{feature}</li>
+              ))}
+            </ul>
+            <a href="#contacto" class="service-link">
+              Solicitar información →
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

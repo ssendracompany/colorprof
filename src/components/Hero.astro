@@ -1,0 +1,32 @@
+---
+import '@/styles/components/hero.css';
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  cta?: string;
+}
+
+const {
+  title = 'Transformamos tus espacios con pintura de calidad',
+  subtitle = 'Servicios profesionales de pintura para interior, exterior y decoración',
+  cta = 'Solicitar Presupuesto'
+} = Astro.props;
+---
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">{title}</h1>
+      <p class="hero-subtitle">{subtitle}</p>
+      <a href="#contacto" class="hero-cta">
+        {cta}
+        <span class="cta-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style define:vars={{ colorAccent: 'var(--color-accent)' }}>
+  /* Styles imported from component CSS */
+</style>

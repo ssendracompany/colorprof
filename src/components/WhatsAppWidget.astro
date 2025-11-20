@@ -1,0 +1,86 @@
+---
+// WhatsApp Widget Component
+const phoneNumber = "+34638943962";
+const message = "Hola, me gustaría solicitar un presupuesto.";
+const whatsappUrl = `https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+---
+
+<a
+  href={whatsappUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="whatsapp-widget"
+  aria-label="Contactar por WhatsApp"
+  title="Contactar por WhatsApp"
+>
+  <span class="whatsapp-icon">💬</span>
+</a>
+
+<style>
+  .whatsapp-widget {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #25d366 0%, #20ba5a 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 50;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .whatsapp-widget:hover {
+    transform: scale(1.1) translateY(-4px);
+    box-shadow: 0 12px 32px rgba(37, 211, 102, 0.6);
+  }
+
+  .whatsapp-widget:active {
+    transform: scale(1.05) translateY(0);
+  }
+
+  .whatsapp-icon {
+    font-size: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Hide on tablet and desktop (840px and up) */
+  @media (min-width: 840px) {
+    .whatsapp-widget {
+      display: none;
+    }
+  }
+
+  /* Mobile: Adjust position for small screens */
+  @media (max-width: 480px) {
+    .whatsapp-widget {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 52px;
+      height: 52px;
+    }
+
+    .whatsapp-icon {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* Accessibility: Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .whatsapp-widget {
+      transition: none;
+    }
+
+    .whatsapp-widget:hover {
+      transform: none;
+    }
+  }
+</style>

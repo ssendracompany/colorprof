@@ -1,0 +1,53 @@
+{
+  "name": "profesionales-del-color",
+  "version": "1.0.0",
+  "description": "Professional painter website - Modern, responsive, dark mode design",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:trace": "playwright test --trace on",
+    "test:a11y": "playwright test --grep @a11y",
+    "test:lighthouse": "lighthouse-ci",
+    "lint": "eslint src --max-warnings 0",
+    "format": "prettier --write src public",
+    "format:check": "prettier --check src public",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "astro",
+    "painter",
+    "portfolio",
+    "responsive",
+    "dark-mode"
+  ],
+  "author": "Profesionales del Color",
+  "license": "MIT",
+  "dependencies": {
+    "@astrojs/vercel": "^9.0.1",
+    "astro": "^5.15.9"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
+    "@vitest/ui": "^4.0.4",
+    "axe-playwright": "^1.2.3",
+    "eslint": "^9.16.0",
+    "prettier": "^3.4.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.4",
+    "jsdom": "^24.1.0"
+  }
+}

@@ -1,0 +1,116 @@
+---
+import '@/styles/components/faq.css';
+
+const faqs = [
+  {
+    id: 1,
+    question: '¿Cuánto se tarda en pintar mi casa?',
+    answer: 'El tiempo está proporcionalmente relacionado con el trabajo a realizar. Un piso de 60m² tarda aproximadamente 1 día y medio. Para pisos de 80m², 2 días. Una vivienda de 100m² requiere unos 3 días de trabajo.'
+  },
+  {
+    id: 2,
+    question: '¿Tenemos que preparar algo nosotros?',
+    answer: 'No te preocupes por nada. Ofrecemos un servicio profesional integral. Todo el trabajo necesario lo realizamos nosotros: preparación del piso, retirada de muebles y protección con papeles y plásticos.'
+  },
+  {
+    id: 3,
+    question: '¿Qué tipo de pintura utilizáis?',
+    answer: 'Nuestro equipo solo emplea marcas profesionales de pintura (ISAVAL, JUNO, CAPAROL). Es la única forma de ofrecer un trabajo de calidad que dure en el tiempo, con la seguridad y garantía que ofrecen los fabricantes de primeras marcas.'
+  },
+  {
+    id: 4,
+    question: '¿Cuánto me va a costar?',
+    answer: 'Cada casa es distinta. El precio depende del tamaño, la pintura empleada y trabajos adicionales (alisado, desperfectos, etc.). Lo mejor es que solicites un presupuesto gratuito y personalizado.'
+  },
+  {
+    id: 5,
+    question: '¿Tenemos garantía?',
+    answer: 'Si no estás plenamente satisfecho con el trabajo ejecutado, nos comprometemos a realizar los retoques necesarios para que el resultado sea de tu agrado. Además, ofrecemos garantía de 24 meses en nuestros trabajos.'
+  },
+  {
+    id: 6,
+    question: '¿Estáis asegurados?',
+    answer: 'Estamos cubiertos por Seguro de Responsabilidad Civil. Al corriente de pagos con la Seguridad Social y Hacienda. Todos nuestros trabajadores están dados de alta en la Seguridad Social.'
+  },
+  {
+    id: 7,
+    question: '¿Es gratuito solicitar presupuesto?',
+    answer: 'Sí, totalmente gratuito. Incluye presupuesto y asesoramiento completo sobre precios, plazos, materiales, técnicas y oficios necesarios.'
+  },
+  {
+    id: 8,
+    question: '¿Cumplís con los plazos acordados?',
+    answer: 'Uno de nuestros lemas es seriedad y compromiso. Empezamos las obras cuando hemos pactado y nos comprometemos en plazos reales para la tranquilidad de nuestros clientes.'
+  },
+  {
+    id: 9,
+    question: '¿Respetáis el medio ambiente?',
+    answer: 'Protegemos el medio ambiente usando productos de bajo nivel de contaminación. Reciclamos todos los restos de pintura y productos de limpieza en puntos ecológicos.'
+  }
+];
+---
+
+<section id="faq" class="faq">
+  <div class="container">
+    <h2 class="faq-title">Preguntas Frecuentes</h2>
+    <p class="faq-description">Respuestas a las dudas más comunes</p>
+
+    <div class="faq-list">
+      {
+        faqs.map((item, index) => (
+          <div class="faq-item" key={item.id}>
+            <button
+              class="faq-question"
+              aria-expanded="false"
+              aria-controls={`faq-answer-${item.id}`}
+              data-faq-toggle={item.id}
+            >
+              <span class="faq-question-text">{item.question}</span>
+              <span class="faq-toggle-icon" aria-hidden="true">
+                +
+              </span>
+            </button>
+            <div
+              class="faq-answer"
+              id={`faq-answer-${item.id}`}
+              hidden
+            >
+              <p>{item.answer}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // FAQ Accordion functionality
+  const faqToggles = document.querySelectorAll('[data-faq-toggle]');
+
+  faqToggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const faqId = toggle.getAttribute('data-faq-toggle');
+      const answer = document.querySelector(`#faq-answer-${faqId}`);
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+      // Close all other FAQs
+      faqToggles.forEach((otherToggle) => {
+        if (otherToggle !== toggle) {
+          otherToggle.setAttribute('aria-expanded', 'false');
+          const otherId = otherToggle.getAttribute('data-faq-toggle');
+          const otherAnswer = document.querySelector(`#faq-answer-${otherId}`);
+          otherAnswer?.setAttribute('hidden', '');
+        }
+      });
+
+      // Toggle current FAQ
+      toggle.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+      if (isExpanded) {
+        answer?.setAttribute('hidden', '');
+      } else {
+        answer?.removeAttribute('hidden');
+      }
+    });
+  });
+</script>
