@@ -1,364 +1,614 @@
-# Frontend Implementation Plan - Content Migration
+# Frontend Architecture: Contact Form Implementation
 
-**Status**: Ready for implementation
-**Estimated Time**: 2 hours
-**Model**: Haiku
-
----
-
-## Phase 1: Update Services Component (30 min)
-
-### Task 1.1: Read current Services component
-- [ ] Read `/src/components/Services.astro` to understand current structure
-- [ ] Read `/src/styles/components/services.css` to understand current styling
-- [ ] Time estimate: 5 min
-
-### Task 1.2: Update Services.astro content
-- [ ] Update Card 1 (Interior):
-  - [ ] Title: "Pintura Interior"
-  - [ ] Description: "Transformamos tus espacios interiores con acabados profesionales"
-  - [ ] Add detailed list: 200+ colores, alisados, gotelé, papel pintado, decoración, restauración, humedades, marcas ISAVAL/JUNO/CAPAROL
-- [ ] Update Card 2 (Exterior):
-  - [ ] Title: "Pintura Exterior"
-  - [ ] Description: "Protegemos y embellecemos fachadas con materiales de primera calidad"
-  - [ ] Add detailed list: rehabilitación fachadas, microcementos, impermeabilización, imprimaciones, técnicas presión, resistentes clima, monocapas
-- [ ] Update Card 3 (Industrial):
-  - [ ] Change title from "Decoración Personalizada" to "Pintura Industrial"
-  - [ ] Description: "Soluciones especializadas para proyectos industriales y comerciales"
-  - [ ] Add detailed list: intumescentes (fuego), metálicas, anticorrosiva, suelos/garajes, cubiertas/terrazas, tratamientos especializados
-- [ ] Time estimate: 15 min
-
-### Task 1.3: Adjust Services CSS if needed
-- [ ] Verify card height accommodates longer content
-- [ ] Adjust padding/margins if text overflows
-- [ ] Ensure responsive design still works (mobile: 320px+, tablet: 768px+, desktop: 1024px+)
-- [ ] Test that cards remain visually balanced
-- [ ] Time estimate: 10 min
-
-**Acceptance Criteria - Services**:
-- [ ] All 3 cards have expanded detailed content
-- [ ] Card 3 title is "Pintura Industrial"
-- [ ] Professional brands (ISAVAL, JUNO, CAPAROL) mentioned in Interior
-- [ ] Responsive design maintained on all breakpoints
-- [ ] Visual consistency with existing design
+## Overview
+Update the existing ContactForm.astro component to work with FormSubmit.co service.
+Changes are minimal and non-breaking.
 
 ---
 
-## Phase 2: Create "Nuestra Historia" Section (45 min)
+## Phase 1: Update Form Element Structure
 
-### Task 2.1: Create About.astro component
-- [ ] Create new file `/src/components/About.astro`
-- [ ] Add frontmatter with CSS import
-- [ ] Create section structure with:
-  - [ ] Main container (`.about-section`)
-  - [ ] Content wrapper (`.about-container`)
-  - [ ] 2-column grid (`.about-content` and `.about-image`)
-  - [ ] Title: "Alta Calidad en Todos Nuestros Trabajos Desde 2000"
-  - [ ] Main paragraph (3 paragraphs from plan)
-  - [ ] Values list (`.about-values`) with 5 bullet points
-  - [ ] Placeholder image or SVG
-- [ ] Use semantic HTML (section, h2, p, ul, li)
-- [ ] Add ARIA labels for accessibility
-- [ ] Time estimate: 20 min
+### Task 1.1: Update Form Action URL
+- [x] File: `src/components/ContactForm.astro`
+- [x] Current line 15: `<form class="contact-form" method="POST" action="/api/contact"`
+- [x] Change to: `<form class="contact-form" method="POST" action="https://formsubmit.co/info@profesionalesdelcolor.com"`
+- [x] Keep all other attributes: `aria-label="Formulario de Contacto Profesional"`
 
-### Task 2.2: Create about.css styles
-- [ ] Create new file `/src/styles/components/about.css`
-- [ ] Define section styles:
-  - [ ] Background with glassmorphism effect
-  - [ ] Padding using CSS variables (--spacing-*)
-  - [ ] Container max-width: 1200px
-- [ ] Define 2-column grid layout:
-  - [ ] Desktop: grid-template-columns: 1fr 1fr
-  - [ ] Gap: var(--spacing-2xl)
-  - [ ] Mobile: 1 column (stack vertically)
-- [ ] Style title (h2):
-  - [ ] Font size: var(--font-size-h2)
-  - [ ] Color: var(--color-text)
-  - [ ] Gradient text effect (optional)
-- [ ] Style paragraphs:
-  - [ ] Line height: var(--line-height-relaxed)
-  - [ ] Color: var(--color-text-secondary)
-  - [ ] Margin bottom: var(--spacing-md)
-- [ ] Style values list:
-  - [ ] Custom bullet points or icons
-  - [ ] Proper spacing between items
-  - [ ] Highlight collaboration (Médicos sin Fronteras, ACNUR)
-- [ ] Style image container:
-  - [ ] Border radius: var(--border-radius-lg)
-  - [ ] Box shadow for depth
-  - [ ] Aspect ratio: 16/9 or 4/3
-- [ ] Responsive breakpoints:
-  - [ ] Mobile (< 768px): 1 column, image below text
-  - [ ] Tablet (768px+): 2 columns
-  - [ ] Desktop (1024px+): larger spacing
-- [ ] Time estimate: 20 min
+**Acceptance**: Form action points to FormSubmit.co endpoint ✅
 
-### Task 2.3: Import About.astro styles
-- [ ] Add `import '@/styles/components/about.css';` to About.astro frontmatter
-- [ ] Time estimate: 1 min
+### Task 1.2: Add Form Name Attribute
+- [x] File: `src/components/ContactForm.astro`
+- [x] Line 15: Add `name="contact-form"` to form element
+- [x] New form tag: `<form class="contact-form" name="contact-form" method="POST" action="https://formsubmit.co/info@profesionalesdelcolor.com"`
 
-### Task 2.4: Add placeholder image
-- [ ] Create or use placeholder image at `/public/about-gandia.jpg`
-- [ ] Alternative: Use SVG placeholder or gradient background
-- [ ] Optimize image size (max 800px width, WebP format)
-- [ ] Add alt text: "Profesionales del Color - Gandía, Valencia"
-- [ ] Time estimate: 4 min
-
-**Acceptance Criteria - About Section**:
-- [ ] Component created at `/src/components/About.astro`
-- [ ] CSS file created at `/src/styles/components/about.css`
-- [ ] Title exactly matches: "Alta Calidad en Todos Nuestros Trabajos Desde 2000"
-- [ ] All 3 paragraphs included
-- [ ] 5 corporate values listed
-- [ ] Médicos sin Fronteras and ACNUR mentioned
-- [ ] 2 columns on desktop, 1 column on mobile
-- [ ] Glassmorphism effects consistent with site
-- [ ] Placeholder image included
+**Acceptance**: Form has name attribute for JavaScript reference ✅
 
 ---
 
-## Phase 3: Update FAQ Component (30 min)
+## Phase 2: Update Input Field Names
 
-### Task 3.1: Read current FAQ component
-- [ ] Read `/src/components/FAQ.astro` to understand accordion structure
-- [ ] Identify how questions/answers are structured
-- [ ] Check if using array/loop or individual items
-- [ ] Time estimate: 5 min
+### Task 2.1: Update Email Field Name
+- [x] File: `src/components/ContactForm.astro`
+- [x] Current line 36: `name="email"`
+- [x] Change to: `name="_replyto"` (FormSubmit special field)
+- [x] Keep: id, type, placeholder, required, aria-required attributes
+- [x] Keep: label association with `for="email"`
 
-### Task 3.2: Replace FAQ content
-- [ ] Remove current 5 questions
-- [ ] Add 9 new questions with full answers:
-  1. [ ] ¿Cuánto se tarda en pintar mi casa? (60m²=1.5d, 80m²=2d, 100m²=3d)
-  2. [ ] ¿Tenemos que preparar algo nosotros? (servicio integral)
-  3. [ ] ¿Qué tipo de pintura utilizáis? (ISAVAL, JUNO, CAPAROL)
-  4. [ ] ¿Cuánto me va a costar? (presupuesto gratuito personalizado)
-  5. [ ] ¿Tenemos garantía? (retoques + 24 meses)
-  6. [ ] ¿Estáis asegurados? (RC, SS, Hacienda)
-  7. [ ] ¿Es gratuito solicitar presupuesto? (sí, incluye asesoramiento)
-  8. [ ] ¿Cumplís con los plazos acordados? (seriedad y compromiso)
-  9. [ ] ¿Respetáis el medio ambiente? (bajo nivel contaminación, reciclado)
-- [ ] Maintain accordion functionality
-- [ ] Time estimate: 20 min
+**Acceptance**: Email field uses _replyto name for FormSubmit ✅
 
-### Task 3.3: Verify FAQ styles with longer content
-- [ ] Check that accordion height adjusts properly
-- [ ] Verify padding/margins with longer text
-- [ ] Test accordion open/close animation
-- [ ] Ensure responsive design on mobile
-- [ ] Time estimate: 5 min
+### Task 2.2: Verify Other Field Names
+- [x] Verify `name="name"` - correct (stays as is)
+- [x] Verify `name="phone"` - correct (stays as is)
+- [x] Verify `name="service"` - correct (stays as is)
+- [x] Verify `name="message"` - correct (stays as is)
 
-**Acceptance Criteria - FAQ**:
-- [ ] 9 questions implemented (old 5 removed)
-- [ ] All answers complete and properly formatted
-- [ ] Accordion functionality works correctly
-- [ ] No overflow or layout issues with longer content
-- [ ] Responsive design maintained
-- [ ] Professional brands mentioned in Q3
+**Acceptance**: All other field names are correct ✅
 
 ---
 
-## Phase 4: Prepare Gallery Structure (20 min)
+## Phase 3: Add FormSubmit Configuration Fields
 
-### Task 4.1: Create gallery folder structure
-- [ ] Create folder `/public/gallery/exterior/`
-- [ ] Create folder `/public/gallery/interior/`
-- [ ] Create folder `/public/gallery/industrial/`
-- [ ] Time estimate: 2 min
+### Task 3.1: Add Hidden Configuration Fields
+- [x] File: `src/components/ContactForm.astro`
+- [x] Location: After line 83 (after message textarea), before honeypot
+- [x] Add the following hidden fields:
 
-### Task 4.2: Create gallery README
-- [ ] Create `/public/gallery/README.md` with:
-  - [ ] Instructions for adding images
-  - [ ] Recommended image specs (format, size, dimensions)
-  - [ ] Naming conventions
-  - [ ] List of categories (exterior, interior, industrial)
-- [ ] Time estimate: 5 min
+```html
+<!-- FormSubmit Configuration (hidden fields) -->
+<input type="hidden" name="_captcha" value="false" />
+<input type="hidden" name="_next" value="https://profesionalesdelcolor.com/" />
+<input type="hidden" name="_subject" value="Nuevo contacto: Profesionales del Color" />
+```
 
-### Task 4.3: Document image URLs from original site
-- [ ] Create `/public/gallery/IMAGE_SOURCES.md`
-- [ ] List all image URLs from original WordPress site:
-  - [ ] Exterior images (~13 URLs)
-  - [ ] Interior images (~17 URLs)
-  - [ ] Industrial images (~8 URLs)
-- [ ] Add download instructions for client
-- [ ] Time estimate: 10 min
+**Details:**
+- `_captcha: false` - Disable reCAPTCHA (not needed for Plesk email)
+- `_next` - Redirect URL after successful submission
+- `_subject` - Email subject line
 
-### Task 4.4: Add placeholder images (optional)
-- [ ] Create 3 placeholder images (one per category)
-- [ ] Or add SVG placeholders
-- [ ] Update Gallery.astro to use placeholders if needed
-- [ ] Time estimate: 3 min
-
-**Acceptance Criteria - Gallery**:
-- [ ] Three folders created: exterior, interior, industrial
-- [ ] README.md with clear instructions created
-- [ ] IMAGE_SOURCES.md with all URLs documented
-- [ ] Placeholder images added (if applicable)
-- [ ] Gallery component ready to receive real images
+**Acceptance**: All 3 hidden fields present before form closing ✅
 
 ---
 
-## Phase 5: Update Location Information (10 min)
+## Phase 4: Update Honeypot Field
 
-### Task 5.1: Update Footer.astro
-- [ ] Read `/src/components/Footer.astro`
-- [ ] Change "Madrid, España" to "Gandía, Valencia"
-- [ ] Verify no other location references in footer
-- [ ] Time estimate: 3 min
+### Task 4.1: Update Honeypot Implementation
+- [x] File: `src/components/ContactForm.astro`
+- [x] Lines 85-96: Current honeypot implementation
+- [x] Change name from `website` to `_honeypot`
+- [x] Change CSS class from `form-group--honeypot` to `form-group--honeypot`
+- [x] Keep hidden with: `tabindex="-1"`, `autocomplete="off"`, `aria-hidden="true"`
 
-### Task 5.2: Update Términos page
-- [ ] Read `/src/pages/terminos.astro`
-- [ ] Find location in contact section (line ~75)
-- [ ] Change "Madrid, España" to "Gandía, Valencia"
-- [ ] Time estimate: 2 min
+**Current code (lines 85-96):**
+```html
+<div class="form-group form-group--honeypot">
+  <label for="website" class="form-label">Sitio Web</label>
+  <input
+    type="text"
+    id="website"
+    name="website"
+    class="form-input"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+  />
+</div>
+```
 
-### Task 5.3: Update Garantía page
-- [ ] Read `/src/pages/garantia.astro`
-- [ ] Find location in contact section (line ~138)
-- [ ] Change "Madrid, España" to "Gandía, Valencia"
-- [ ] Time estimate: 2 min
+**Updated code:**
+```html
+<!-- Honeypot anti-spam field (hidden from users) -->
+<div class="form-group form-group--honeypot">
+  <label for="honeypot" class="form-label">Website</label>
+  <input
+    type="text"
+    id="honeypot"
+    name="_honeypot"
+    class="form-input"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+    style="display: none;"
+  />
+</div>
+```
 
-### Task 5.4: Verify no other location references
-- [ ] Search codebase for "Madrid" references
-- [ ] Update any remaining instances
-- [ ] Time estimate: 3 min
-
-**Acceptance Criteria - Location**:
-- [ ] Footer shows "Gandía, Valencia"
-- [ ] Términos page shows "Gandía, Valencia"
-- [ ] Garantía page shows "Gandía, Valencia"
-- [ ] No remaining "Madrid" references
-- [ ] All location info consistent
+**Acceptance**: Honeypot field renamed to _honeypot with proper styling
 
 ---
 
-## Phase 6: Integration (15 min)
+## Phase 5: Update Form Submission Script
 
-### Task 6.1: Integrate About component in index.astro
-- [ ] Read `/src/pages/index.astro`
-- [ ] Import About component: `import About from '@/components/About.astro';`
-- [ ] Find location between Services and FAQ sections
-- [ ] Add `<About />` component
-- [ ] Verify proper spacing between sections
-- [ ] Time estimate: 5 min
+### Task 5.1: Replace Form Script Block
+- [x] File: `src/components/ContactForm.astro`
+- [x] Lines 133-153: Replace entire script block with new implementation
+- [x] New script adds honeypot validation before form submission
 
-### Task 6.2: Visual verification
-- [ ] Check that all sections flow correctly
-- [ ] Verify spacing between Hero → Services → About → FAQ → Gallery → Contact
-- [ ] Ensure no layout breaks
-- [ ] Time estimate: 5 min
+**New Script Code:**
+```astro
+<script>
+  // Get form elements
+  const form = document.querySelector('.contact-form') as HTMLFormElement;
+  const submitButton = form?.querySelector('.submit-button') as HTMLButtonElement;
+  const honeypotField = form?.querySelector('[name="_honeypot"]') as HTMLInputElement;
 
-### Task 6.3: Build verification
-- [ ] Run `npm run build`
-- [ ] Verify no TypeScript errors
+  if (form && submitButton) {
+    form.addEventListener('submit', (e: Event) => {
+      // Check honeypot field - if filled, likely spam bot
+      if (honeypotField && honeypotField.value) {
+        console.log('Honeypot filled - spam detected, preventing submission');
+        e.preventDefault();
+        return false;
+      }
+
+      // Update button state to indicate loading
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
+
+      // Allow form to submit to FormSubmit.co
+      // FormSubmit will handle the actual submission
+    });
+  }
+</script>
+```
+
+**Details:**
+- Get form element and submit button
+- Get honeypot field
+- Add submit event listener
+- Check if honeypot is filled (spam prevention)
+- If honeypot filled: prevent submission
+- If honeypot empty: update button to show loading state
+- Allow FormSubmit to handle actual submission
+
+**Acceptance**: Script prevents spam via honeypot, shows loading state ✅
+
+---
+
+## Phase 6: Add User Feedback Styles
+
+### Task 6.1: Verify CSS Exists for Disabled Button
+- [x] File: `src/styles/components/contact.css`
+- [x] Search for `.submit-button:disabled`
+- [x] Should have: `opacity: 0.6;` and `cursor: not-allowed;`
+- [x] If missing, add to end of file
+
+**Acceptance**: Disabled button styles present ✅ (lines 278-282)
+
+### Task 6.2: Add Optional Success Message Styles (Future Enhancement)
+- [x] File: `src/styles/components/contact.css`
+- [x] Optional: Add styles for success/error messages
+- [x] Can be added later if needed for better UX
+
+**Note**: Not required for MVP with FormSubmit redirect ✅
+
+---
+
+## Phase 7: Browser Testing - Local Development
+
+### Task 7.1: Start Development Server
+- [ ] Run: `npm run dev`
 - [ ] Verify no build errors
-- [ ] Check output for warnings
-- [ ] Time estimate: 5 min
+- [ ] Open: http://localhost:3000
+- [ ] Navigate to contact section
 
-**Acceptance Criteria - Integration**:
-- [ ] About component imported in index.astro
-- [ ] About component placed between Services and FAQ
-- [ ] All sections properly aligned and spaced
-- [ ] No layout issues or visual breaks
-- [ ] Build completes successfully
+**Acceptance**: Development server runs, page loads without errors
 
----
+### Task 7.2: Test Form Rendering
+- [ ] [ ] Visual check: All form fields visible
+- [ ] [ ] Check: Labels display correctly
+- [ ] [ ] Check: Required asterisks (*) visible
+- [ ] [ ] Check: Select dropdown displays all options
+- [ ] [ ] Check: Honeypot field is NOT visible to user
+- [ ] [ ] Check: Styling looks correct
 
-## Phase 7: Testing & Verification (10 min)
+**Acceptance**: Form renders correctly with all elements visible
 
-### Task 7.1: Browser testing
-- [ ] Open site in browser (npm run dev)
-- [ ] Verify Hero section displays correctly
-- [ ] Scroll to Services - check all 3 cards with new content
-- [ ] Scroll to About - check 2-column layout (desktop)
-- [ ] Scroll to FAQ - open/close all 9 questions
-- [ ] Scroll to Gallery - verify structure ready
-- [ ] Scroll to Contact - verify form works
-- [ ] Check Footer - verify "Gandía, Valencia"
-- [ ] Time estimate: 5 min
+### Task 7.3: Test Field Types and Attributes
+- [ ] [ ] Text input (name) - accepts text
+- [ ] [ ] Email input (_replyto) - shows email keyboard on mobile
+- [ ] [ ] Tel input (phone) - shows phone keyboard on mobile
+- [ ] [ ] Select dropdown (service) - opens dropdown menu
+- [ ] [ ] Textarea (message) - accepts multi-line text
+- [ ] [ ] All required fields show required attribute
 
-### Task 7.2: Responsive testing
-- [ ] Test on mobile (320px, 375px, 414px)
-  - [ ] Services cards stack vertically
-  - [ ] About section is 1 column
-  - [ ] FAQ accordion works
-- [ ] Test on tablet (768px, 1024px)
-  - [ ] Services in grid
-  - [ ] About in 2 columns
-- [ ] Test on desktop (1440px+)
-  - [ ] All sections properly centered
-  - [ ] Max-widths applied correctly
-- [ ] Time estimate: 5 min
+**Acceptance**: All input types work correctly
 
-### Task 7.3: Accessibility check
-- [ ] Tab through page with keyboard
-- [ ] Verify ARIA labels present
-- [ ] Check color contrast (text vs background)
-- [ ] Test accordion keyboard navigation
-- [ ] Time estimate: 3 min (part of browser testing)
+### Task 7.4: Test HTML5 Validation
+- [ ] [ ] Submit form without filling name - shows validation error
+- [ ] [ ] Submit form without filling _replyto - shows validation error
+- [ ] [ ] Submit form without filling message - shows validation error
+- [ ] [ ] Enter invalid email format in _replyto - shows validation error
+- [ ] [ ] Phone field allows empty submission (optional field)
+- [ ] [ ] Service field allows submission without selection
 
-**Acceptance Criteria - Testing**:
-- [ ] All sections display correctly in browser
-- [ ] Services cards show new content
-- [ ] About section displays between Services and FAQ
-- [ ] FAQ shows 9 questions with full answers
-- [ ] Footer and legal pages show "Gandía, Valencia"
-- [ ] Responsive on all breakpoints (320px - 1440px+)
-- [ ] No console errors
-- [ ] Build succeeds without warnings
-- [ ] Accessibility features functional
+**Acceptance**: HTML5 validation works for required fields
 
----
+### Task 7.5: Test Honeypot Functionality
+- [ ] [ ] Inspector: Check honeypot field is hidden (display: none)
+- [ ] [ ] Tab through form: Honeypot field is skipped (tabindex=-1)
+- [ ] [ ] Manual fill test: Manually set honeypot value in DevTools
+- [ ] [ ] Submit with honeypot filled: Form submission is prevented
+- [ ] [ ] Check console: "Honeypot filled - spam detected" message appears
+- [ ] [ ] Submit without honeypot: Form submits normally
 
-## Final Checklist
+**Acceptance**: Honeypot prevents submission when filled, allows when empty
 
-### Code Quality
-- [ ] No TypeScript `any` types used
-- [ ] No TODO comments left in code
-- [ ] All imports properly organized
-- [ ] Consistent code formatting
-- [ ] CSS follows existing conventions (variables, naming)
+### Task 7.6: Test Form Submission with Valid Data
+- [ ] [ ] Fill all required fields with valid data
+- [ ] [ ] Also fill optional phone field
+- [ ] [ ] Submit form
+- [ ] [ ] Verify button shows "Enviando..." state
+- [ ] [ ] Verify button is disabled (opacity 0.6)
+- [ ] [ ] Page redirects to https://profesionalesdelcolor.com
+- [ ] [ ] Check Plesk webmail inbox for email
+- [ ] [ ] Verify email contains all form data
+- [ ] [ ] Verify email subject is "Nuevo contacto: Profesionales del Color"
 
-### Content Accuracy
-- [ ] All text content matches specification exactly
-- [ ] 9 FAQ questions with complete answers
-- [ ] 3 service cards with detailed content
-- [ ] About section with 5 corporate values
-- [ ] Professional brands mentioned (ISAVAL, JUNO, CAPAROL)
-- [ ] Collaboration with Médicos sin Fronteras and ACNUR mentioned
+**Acceptance**: Form submits successfully and email is received
 
-### Visual Consistency
-- [ ] Glassmorphism effects match existing sections
-- [ ] Color scheme consistent (gradients, text colors)
-- [ ] Spacing consistent (using CSS variables)
-- [ ] Typography consistent (font sizes, weights, line heights)
-- [ ] Border radius consistent across components
+### Task 7.7: Test Email Content
+- [ ] [ ] Email from field is correct sender
+- [ ] [ ] Email to field is info@profesionalesdelcolor.com
+- [ ] [ ] Subject line matches: "Nuevo contacto: Profesionales del Color"
+- [ ] [ ] Email contains name field
+- [ ] [ ] Email contains email (_replyto) field
+- [ ] [ ] Email contains phone field
+- [ ] [ ] Email contains service field
+- [ ] [ ] Email contains message field
+- [ ] [ ] Reply-To header is customer's email
+- [ ] [ ] Email is plain text or HTML (readable)
 
-### Performance
-- [ ] Images optimized (if added)
-- [ ] No large files added to build
-- [ ] CSS file sizes reasonable
-- [ ] Build time not significantly increased
+**Acceptance**: Email receives all expected data in correct format
 
-### Documentation
-- [ ] Gallery README.md created with clear instructions
-- [ ] IMAGE_SOURCES.md created with all URLs
-- [ ] Code comments added where necessary (minimal, self-documenting code)
+### Task 7.8: Test Optional Phone Field
+- [ ] [ ] Submit form WITHOUT phone field - should succeed
+- [ ] [ ] Submit form WITH phone field - should succeed
+- [ ] [ ] Verify email includes phone when filled
+- [ ] [ ] Verify email works without phone
 
----
+**Acceptance**: Optional field works both ways
 
-## Time Summary
+### Task 7.9: Test Form Reset
+- [ ] [ ] Submit valid form successfully
+- [ ] [ ] Return to form (browser back button)
+- [ ] [ ] Verify form fields are empty (properly reset)
+- [ ] [ ] Fill and submit again - should work
 
-| Phase | Estimated Time |
-|-------|----------------|
-| 1. Update Services | 30 min |
-| 2. Create About Section | 45 min |
-| 3. Update FAQ | 30 min |
-| 4. Gallery Structure | 20 min |
-| 5. Update Location | 10 min |
-| 6. Integration | 15 min |
-| 7. Testing | 10 min |
-| **Total** | **2 hours** |
+**Acceptance**: Form resets after successful submission
+
+### Task 7.10: Test Error Scenarios
+- [ ] [ ] Disconnect internet mid-submission
+- [ ] [ ] FormSubmit service down (if applicable)
+- [ ] [ ] Check browser console for any JavaScript errors
+- [ ] [ ] Verify form doesn't crash
+
+**Acceptance**: No console errors, graceful handling
 
 ---
 
-**Ready for implementation with Haiku model**
+## Phase 8: Mobile Testing
+
+### Task 8.1: Test on Mobile Device Emulation
+- [ ] [ ] Open DevTools (F12)
+- [ ] [ ] Toggle device toolbar (Ctrl+Shift+M)
+- [ ] [ ] Test iPhone SE (375px width)
+- [ ] [ ] Test iPhone 12 (390px width)
+- [ ] [ ] Test iPad (768px width)
+- [ ] [ ] Test Android device
+
+**Acceptance**: Form is responsive on all sizes
+
+### Task 8.2: Test Touch Interactions
+- [ ] [ ] Emulate touch: Click/tap name field
+- [ ] [ ] Verify keyboard appears (virtual keyboard)
+- [ ] [ ] Emulate touch: Click/tap email field
+- [ ] [ ] Verify email keyboard appears
+- [ ] [ ] Emulate touch: Click/tap phone field
+- [ ] [ ] Verify phone keyboard appears
+- [ ] [ ] Emulate touch: Click/tap select dropdown
+- [ ] [ ] Verify dropdown opens properly
+- [ ] [ ] Emulate touch: Click/tap submit button
+- [ ] [ ] Verify button responds to touch
+
+**Acceptance**: All touch interactions work smoothly
+
+### Task 8.3: Test on Real Mobile Devices
+- [ ] [ ] Test on personal iPhone (Safari)
+- [ ] [ ] Test on personal Android (Chrome)
+- [ ] [ ] Fill form on mobile
+- [ ] [ ] Submit successfully
+- [ ] [ ] Verify email arrives
+- [ ] [ ] Verify button shows loading state on mobile
+- [ ] [ ] Verify redirect works on mobile
+
+**Acceptance**: All mobile tests pass on real devices
+
+### Task 8.4: Test Mobile Responsiveness
+- [ ] [ ] Form width adapts to screen size
+- [ ] [ ] Labels are readable
+- [ ] [ ] Inputs are large enough to tap
+- [ ] [ ] Select dropdown fits on screen
+- [ ] [ ] Textarea is large enough to use
+- [ ] [ ] Submit button is large enough
+- [ ] [ ] No horizontal scrolling needed
+- [ ] [ ] Contact info section is readable
+
+**Acceptance**: Form is fully responsive and usable on mobile
+
+---
+
+## Phase 9: Cross-Browser Testing
+
+### Task 9.1: Test in Chrome
+- [ ] [ ] Form renders correctly
+- [ ] [ ] Validation works
+- [ ] [ ] Form submits successfully
+- [ ] [ ] Email arrives
+- [ ] [ ] Redirect works
+
+**Acceptance**: Chrome works fully
+
+### Task 9.2: Test in Firefox
+- [ ] [ ] Form renders correctly
+- [ ] [ ] Validation works
+- [ ] [ ] Form submits successfully
+- [ ] [ ] Email arrives
+
+**Acceptance**: Firefox works fully
+
+### Task 9.3: Test in Safari
+- [ ] [ ] Form renders correctly
+- [ ] [ ] Validation works
+- [ ] [ ] Form submits successfully
+- [ ] [ ] Email arrives
+
+**Acceptance**: Safari works fully
+
+### Task 9.4: Test in Edge
+- [ ] [ ] Form renders correctly
+- [ ] [ ] Validation works
+- [ ] [ ] Form submits successfully
+- [ ] [ ] Email arrives
+
+**Acceptance**: Edge works fully
+
+---
+
+## Phase 10: Production Deployment
+
+### Task 10.1: Pre-Deployment Build Check
+- [ ] [ ] Run: `npm run build`
+- [ ] [ ] Verify build succeeds (no errors)
+- [ ] [ ] Check build output in `dist/` folder
+- [ ] [ ] Verify contact form HTML in build
+- [ ] [ ] Check that no error messages appear
+
+**Acceptance**: Build completes successfully
+
+### Task 10.2: Deploy to Vercel
+- [ ] [ ] Run: `vercel --prod`
+- [ ] [ ] Verify deployment succeeds
+- [ ] [ ] Check Vercel dashboard for successful deployment
+- [ ] [ ] Verify no build errors in Vercel logs
+
+**Acceptance**: Production deployment successful
+
+### Task 10.3: Test on Production URL
+- [ ] [ ] Visit: https://profesionalesdelcolor.com
+- [ ] [ ] Navigate to contact section
+- [ ] [ ] Fill form with test data
+- [ ] [ ] Submit form
+- [ ] [ ] Verify page redirects to homepage
+- [ ] [ ] Check Plesk inbox for email
+- [ ] [ ] Verify email arrived successfully
+
+**Acceptance**: Production form works end-to-end
+
+### Task 10.4: Verify Production Styling
+- [ ] [ ] Form styling matches local version
+- [ ] [ ] Colors are correct
+- [ ] [ ] Layout is responsive
+- [ ] [ ] All elements visible and clickable
+- [ ] [ ] No styling regressions
+
+**Acceptance**: Styling is correct in production
+
+### Task 10.5: Production Email Validation
+- [ ] [ ] Email arrives in inbox (not spam)
+- [ ] [ ] Email subject is correct
+- [ ] [ ] Email contains all form fields
+- [ ] [ ] Reply-To is customer's email
+- [ ] [ ] Can reply to customer from Plesk
+
+**Acceptance**: Production emails work correctly
+
+---
+
+## Phase 11: Documentation Updates
+
+### Task 11.1: Update README.md
+- [ ] [ ] File: `README.md`
+- [ ] [ ] Add section: "Contact Form"
+- [ ] [ ] Document that FormSubmit.co is being used
+- [ ] [ ] Document form fields and their names
+- [ ] [ ] Explain _replyto, _honeypot, _subject fields
+- [ ] [ ] Document Plesk email setup
+- [ ] [ ] Add troubleshooting section
+
+**Acceptance**: README documents contact form setup
+
+### Task 11.2: Add Code Comments
+- [ ] [ ] File: `src/components/ContactForm.astro`
+- [ ] [ ] Add comment explaining FormSubmit.co usage
+- [ ] [ ] Add comment explaining hidden fields
+- [ ] [ ] Add comment explaining honeypot field
+- [ ] [ ] Comments should be minimal and helpful
+
+**Acceptance**: Code is well-documented
+
+### Task 11.3: Verify No Sensitive Data in Code
+- [ ] [ ] No API keys in source code
+- [ ] [ ] No secrets hardcoded
+- [ ] [ ] Email address `info@profesionalesdelcolor.com` is acceptable (public)
+- [ ] [ ] No personal information exposed
+
+**Acceptance**: Code is secure and contains no secrets
+
+---
+
+## Phase 12: Accessibility Testing
+
+### Task 12.1: Keyboard Navigation
+- [ ] [ ] Tab through entire form
+- [ ] [ ] All fields are reachable via keyboard
+- [ ] [ ] Honeypot field is skipped (tabindex=-1)
+- [ ] [ ] Tab order makes sense (left-to-right, top-to-bottom)
+- [ ] [ ] Submit button is reachable via Tab
+- [ ] [ ] Can submit with Enter key on submit button
+
+**Acceptance**: Full keyboard navigation works
+
+### Task 12.2: Screen Reader Testing
+- [ ] [ ] Use NVDA or JAWS screen reader
+- [ ] [ ] Test on form section title
+- [ ] [ ] Test on all form labels
+- [ ] [ ] Test required indicators (*)
+- [ ] [ ] Test form validation messages
+- [ ] [ ] Test submit button
+- [ ] [ ] Labels correctly associated with inputs (for/id)
+
+**Acceptance**: Screen reader experiences form correctly
+
+### Task 12.3: Color Contrast
+- [ ] [ ] Use WebAIM contrast checker
+- [ ] [ ] Check label text contrast
+- [ ] [ ] Check input text contrast
+- [ ] [ ] Check placeholder text contrast
+- [ ] [ ] Check required star (*) contrast
+- [ ] [ ] All text passes WCAG AA standard (4.5:1)
+
+**Acceptance**: Color contrast meets accessibility standards
+
+### Task 12.4: Form Validation Messages
+- [ ] [ ] Submit with empty required field
+- [ ] [ ] Validation message is clear and visible
+- [ ] [ ] Screen reader announces validation message
+- [ ] [ ] User can identify which field has error
+
+**Acceptance**: Validation messages are accessible
+
+---
+
+## Phase 13: Performance Testing
+
+### Task 13.1: Lighthouse Audit
+- [ ] [ ] Open DevTools
+- [ ] [ ] Run Lighthouse audit
+- [ ] [ ] Check Performance score
+- [ ] [ ] Check Accessibility score
+- [ ] [ ] Check Best Practices score
+- [ ] [ ] Check SEO score
+- [ ] [ ] Address any critical issues
+
+**Acceptance**: Lighthouse scores are acceptable (90+)
+
+### Task 13.2: Form Load Time
+- [ ] [ ] Measure form page load time
+- [ ] [ ] Should be under 3 seconds
+- [ ] [ ] Check Network tab for slow assets
+- [ ] [ ] Verify form is interactive quickly
+
+**Acceptance**: Form loads quickly
+
+### Task 13.3: Submission Speed
+- [ ] [ ] Time from submission to redirect
+- [ ] [ ] Should be 2-5 seconds typically
+- [ ] [ ] FormSubmit processes submissions quickly
+
+**Acceptance**: Submission is responsive
+
+---
+
+## Phase 14: Final Quality Checks
+
+### Task 14.1: No Console Errors
+- [ ] [ ] Open DevTools Console
+- [ ] [ ] Load form page
+- [ ] [ ] Submit form
+- [ ] [ ] Verify no errors or warnings
+- [ ] [ ] Only informational logs allowed
+
+**Acceptance**: Console is clean with no errors
+
+### Task 14.2: Code Review
+- [ ] [ ] Review ContactForm.astro changes
+- [ ] [ ] Verify form structure is semantic HTML
+- [ ] [ ] Check for deprecated attributes
+- [ ] [ ] Verify ARIA labels are correct
+- [ ] [ ] Check script is clean and efficient
+
+**Acceptance**: Code follows best practices
+
+### Task 14.3: Visual Consistency
+- [ ] [ ] Compare with design/mockups (if available)
+- [ ] [ ] Check spacing and alignment
+- [ ] [ ] Verify color scheme matches site
+- [ ] [ ] Ensure typography is consistent
+- [ ] [ ] Check for visual regressions
+
+**Acceptance**: Form looks correct visually
+
+---
+
+## Success Criteria Summary
+
+✅ Form submits to FormSubmit.co successfully
+✅ Email arrives at `info@profesionalesdelcolor.com`
+✅ All form fields captured in email
+✅ Reply-To set to customer's email
+✅ Honeypot prevents spam submissions
+✅ HTML5 validation prevents invalid input
+✅ Button shows loading state ("Enviando...")
+✅ Page redirects to homepage after submission
+✅ Works on all devices (desktop, tablet, mobile)
+✅ Works in all major browsers (Chrome, Firefox, Safari, Edge)
+✅ Keyboard navigation is fully functional
+✅ Screen reader compatible
+✅ No console errors
+✅ Build and deploy successful
+✅ Production testing passed
+
+---
+
+## Rollback Instructions
+
+If anything goes wrong:
+1. Revert form action back to `/api/contact`
+2. Remove FormSubmit hidden fields
+3. Restore email field name to `email`
+4. Restore honeypot name to `website`
+5. Revert script to original version
+6. Test again
+
+**Estimated rollback time**: 5 minutes
+
+---
+
+## Notes for Future Enhancements
+
+- Could add client-side success message before redirect
+- Could add error handling for network failures
+- Could add form validation UI improvements
+- Could track form submissions with analytics
+- Could add captcha if spam becomes issue
+- Could migrate to custom backend (Astro API) for more control
+
+---
+
+## References
+
+- [FormSubmit.co Docs](https://formsubmit.co/)
+- [HTML Form Validation](https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation)
+- [ARIA Form Labels](https://www.w3.org/WAI/tutorials/forms/labels/)
+- [Accessible Forms](https://www.a11y-101.com/design/form-design)
+- [Astro Forms Guide](https://docs.astro.build/en/guides/forms/)

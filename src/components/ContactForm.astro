@@ -12,7 +12,7 @@ const serviceTypes = [
 <section id="contacto" class="contact">
   <div class="container">
     <div class="contact-content">
-      <form class="contact-form" method="POST" action="/api/contact" aria-label="Formulario de Contacto Profesional">
+      <form class="contact-form" name="contact-form" method="POST" action="https://formsubmit.co/info@profesionalesdelcolor.com" aria-label="Formulario de Contacto Profesional">
         <h2 class="form-title">Contáctanos para tu Proyecto</h2>
 
         <div class="form-group">
@@ -33,7 +33,7 @@ const serviceTypes = [
           <input
             type="email"
             id="email"
-            name="email"
+            name="_replyto"
             class="form-input"
             placeholder="tu.email@ejemplo.com"
             required
@@ -82,16 +82,23 @@ const serviceTypes = [
           ></textarea>
         </div>
 
+        <!-- FormSubmit Configuration (hidden fields) -->
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_next" value="https://profesionalesdelcolor.com/" />
+        <input type="hidden" name="_subject" value="Nuevo contacto: Profesionales del Color" />
+
+        <!-- Honeypot anti-spam field (hidden from users) -->
         <div class="form-group form-group--honeypot">
-          <label for="website" class="form-label">Sitio Web</label>
+          <label for="honeypot" class="form-label">Website</label>
           <input
             type="text"
-            id="website"
-            name="website"
+            id="honeypot"
+            name="_honeypot"
             class="form-input"
             tabindex="-1"
             autocomplete="off"
             aria-hidden="true"
+            style="display: none;"
           />
         </div>
 
@@ -131,23 +138,26 @@ const serviceTypes = [
 </section>
 
 <script>
-  // Form submission handling
-  const form = document.querySelector('.contact-form');
+  // Get form elements
+  const form = document.querySelector('.contact-form') as HTMLFormElement;
+  const submitButton = form?.querySelector('.submit-button') as HTMLButtonElement;
+  const honeypotField = form?.querySelector('[name="_honeypot"]') as HTMLInputElement;
 
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Check honeypot field
-      const honeypot = form.querySelector('[name="website"]').value;
-      if (honeypot) {
-        console.log('Honeypot filled - likely spam');
-        return;
+  if (form && submitButton) {
+    form.addEventListener('submit', (e: Event) => {
+      // Check honeypot field - if filled, likely spam bot
+      if (honeypotField && honeypotField.value) {
+        console.log('Honeypot filled - spam detected, preventing submission');
+        e.preventDefault();
+        return false;
       }
 
-      // You can add additional client-side validation here
-      console.log('Form submitted successfully');
-      // Vercel Forms will handle the submission automatically
+      // Update button state to indicate loading
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
+
+      // Allow form to submit to FormSubmit.co
+      // FormSubmit will handle the actual submission
     });
   }
 </script>
