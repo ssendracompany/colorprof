@@ -2,30 +2,47 @@
 import '@/styles/components/gallery.css';
 
 const portfolioItems = [
-  {
-    id: 1,
-    title: 'Sala de Estar Moderna',
-    category: 'Interior',
-    image: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&h=600&fit=crop'
-  },
-  {
-    id: 2,
-    title: 'Fachada Restaurada',
-    category: 'Exterior',
-    image: 'https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?w=800&h=600&fit=crop'
-  },
-  {
-    id: 3,
-    title: 'Cocina Personalizada',
-    category: 'Interior',
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop'
-  },
-  {
-    id: 4,
-    title: 'Dormitorio Elegante',
-    category: 'Interior',
-    image: 'https://images.unsplash.com/photo-1540932239986-a128078a3520?w=800&h=600&fit=crop'
-  }
+  // Interior
+  { id: 1, title: 'Interior 1', category: 'Interior', image: '/gallery/inside/imgi_54_1-2-scaled.jpg' },
+  { id: 2, title: 'Interior 2', category: 'Interior', image: '/gallery/inside/imgi_55_2-2-scaled.jpg' },
+  { id: 3, title: 'Interior 3', category: 'Interior', image: '/gallery/inside/imgi_56_3-2-scaled.jpg' },
+  { id: 4, title: 'Interior 4', category: 'Interior', image: '/gallery/inside/imgi_57_4-2-scaled.jpg' },
+  { id: 5, title: 'Interior 5', category: 'Interior', image: '/gallery/inside/imgi_58_5-scaled.jpg' },
+  { id: 6, title: 'Interior 6', category: 'Interior', image: '/gallery/inside/imgi_59_6-scaled.jpg' },
+  { id: 7, title: 'Interior 7', category: 'Interior', image: '/gallery/inside/imgi_60_IMG_20190412_170821-scaled.jpg' },
+  { id: 8, title: 'Interior 8', category: 'Interior', image: '/gallery/inside/imgi_61_IMG_20190816_160831-scaled.jpg' },
+  { id: 9, title: 'Interior 9', category: 'Interior', image: '/gallery/inside/imgi_62_IMG_20190816_181447-1-scaled.jpg' },
+  { id: 10, title: 'Interior 10', category: 'Interior', image: '/gallery/inside/imgi_63_IMG_20190816_181455-scaled.jpg' },
+  { id: 11, title: 'Interior 11', category: 'Interior', image: '/gallery/inside/imgi_64_Interior_6.jpg' },
+  { id: 12, title: 'Interior 12', category: 'Interior', image: '/gallery/inside/imgi_65_Interior_5.jpg' },
+  { id: 13, title: 'Interior 13', category: 'Interior', image: '/gallery/inside/imgi_66_Interior_4.jpg' },
+  { id: 14, title: 'Interior 14', category: 'Interior', image: '/gallery/inside/imgi_67_interior-1.jpg' },
+  { id: 15, title: 'Comedor', category: 'Interior', image: '/gallery/inside/imgi_68_Comedor.jpg' },
+  { id: 16, title: 'Comedor 2', category: 'Interior', image: '/gallery/inside/imgi_69_Comedor_2.jpg' },
+  { id: 17, title: 'Escalera', category: 'Interior', image: '/gallery/inside/imgi_70_escalera.jpg' },
+
+  // Exterior
+  { id: 18, title: 'Exterior 1', category: 'Exterior', image: '/gallery/outside/imgi_40_1-1-scaled.jpg' },
+  { id: 19, title: 'Exterior 2', category: 'Exterior', image: '/gallery/outside/imgi_42_2-1-scaled.jpg' },
+  { id: 20, title: 'Exterior 3', category: 'Exterior', image: '/gallery/outside/imgi_43_4-1-scaled.jpg' },
+  { id: 21, title: 'Decapado Finca', category: 'Exterior', image: '/gallery/outside/imgi_44_decapado_finca.jpg' },
+  { id: 22, title: 'Fachada', category: 'Exterior', image: '/gallery/outside/imgi_45_Fachada.jpg' },
+  { id: 23, title: 'Tratamiento Chapa', category: 'Exterior', image: '/gallery/outside/imgi_46_Routlos_Previo-Lijado_y-esmaltado_chapa.jpg' },
+  { id: 24, title: 'Tratamiento Madera', category: 'Exterior', image: '/gallery/outside/imgi_47_Tratamiento-de-Madera-1.jpg' },
+  { id: 25, title: 'Tratamiento Pistas', category: 'Exterior', image: '/gallery/outside/imgi_48_tratamiento-pistas.jpg' },
+  { id: 26, title: 'Decapado Arena', category: 'Exterior', image: '/gallery/outside/imgi_49_Decapado-chorro-de-arena_1.jpg' },
+  { id: 27, title: 'Pintura Césped', category: 'Exterior', image: '/gallery/outside/imgi_50_Pintura_esmaltado_interior_cesped.jpg' },
+  { id: 28, title: 'Exterior Industrial 1', category: 'Exterior', image: '/gallery/outside/imgi_51_industrial.jpg' },
+  { id: 29, title: 'Exterior Industrial 2', category: 'Exterior', image: '/gallery/outside/imgi_52_industrial_1.jpg' },
+  { id: 30, title: 'Exterior Industrial 3', category: 'Exterior', image: '/gallery/outside/imgi_53_industrial_2.jpg' },
+
+  // Industrial
+  { id: 31, title: 'Industrial 1', category: 'Industrial', image: '/gallery/industrial/imgi_71_2-3-scaled.jpg' },
+  { id: 32, title: 'Industrial 2', category: 'Industrial', image: '/gallery/industrial/imgi_72_IMG_20190308_132750-scaled.jpg' },
+  { id: 33, title: 'Industrial 3', category: 'Industrial', image: '/gallery/industrial/imgi_73_IMG_20190308_134104-scaled.jpg' },
+  { id: 34, title: 'Marquesina', category: 'Industrial', image: '/gallery/industrial/imgi_74_Marquesina.jpg' },
+  { id: 35, title: 'Limpieza Fachada', category: 'Industrial', image: '/gallery/industrial/imgi_75_Limpieza-fachada_2.jpg' },
+  { id: 36, title: 'Limpieza Fachada 2', category: 'Industrial', image: '/gallery/industrial/imgi_76_Limpieza-fachada.jpg' },
 ];
 ---
 
@@ -34,11 +51,19 @@ const portfolioItems = [
     <h2 class="gallery-title">Galería de Trabajos</h2>
     <p class="gallery-description">Algunos de nuestros proyectos realizados</p>
 
+    <!-- Filter Buttons -->
+    <div class="gallery-filters">
+      <button class="filter-btn active" data-filter="all">Todas</button>
+      <button class="filter-btn" data-filter="Interior">Interior</button>
+      <button class="filter-btn" data-filter="Exterior">Exterior</button>
+      <button class="filter-btn" data-filter="Industrial">Industrial</button>
+    </div>
+
     <div class="gallery-carousel" data-carousel>
       <div class="carousel-track">
         {
           portfolioItems.map((item) => (
-            <div class="carousel-slide">
+            <div class="carousel-slide" data-category={item.category}>
               <div class="gallery-item">
                 <div class="gallery-image-wrapper">
                   <img
@@ -93,18 +118,19 @@ const portfolioItems = [
 </section>
 
 <script>
-  // Carousel functionality
+  // Carousel functionality with filtering
   class Carousel {
     constructor(element) {
       this.carousel = element;
       this.track = element.querySelector('.carousel-track');
-      this.slides = element.querySelectorAll('.carousel-slide');
+      this.allSlides = Array.from(element.querySelectorAll('.carousel-slide'));
+      this.visibleSlides = [...this.allSlides];
       this.prevBtn = element.querySelector('[data-carousel-prev]');
       this.nextBtn = element.querySelector('[data-carousel-next]');
-      this.indicators = element.querySelectorAll('[data-carousel-indicator]');
+      this.indicatorsContainer = element.querySelector('.carousel-indicators');
 
       this.currentIndex = 0;
-      this.slideWidth = this.slides[0]?.offsetWidth || 0;
+      this.currentFilter = 'all';
 
       this.init();
     }
@@ -113,13 +139,8 @@ const portfolioItems = [
       this.prevBtn.addEventListener('click', () => this.previousSlide());
       this.nextBtn.addEventListener('click', () => this.nextSlide());
 
-      this.indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => this.goToSlide(index));
-      });
-
       // Update on window resize
       window.addEventListener('resize', () => {
-        this.slideWidth = this.slides[0]?.offsetWidth || 0;
         this.updateSlidePosition();
       });
 
@@ -128,21 +149,87 @@ const portfolioItems = [
         if (e.key === 'ArrowLeft') this.previousSlide();
         if (e.key === 'ArrowRight') this.nextSlide();
       });
+
+      // Filter buttons
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter');
+          this.filterSlides(filter);
+
+          // Update active button
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+
+      this.updateIndicators();
+    }
+
+    filterSlides(category) {
+      this.currentFilter = category;
+      this.currentIndex = 0;
+
+      // Filter slides
+      if (category === 'all') {
+        this.visibleSlides = [...this.allSlides];
+      } else {
+        this.visibleSlides = this.allSlides.filter(slide =>
+          slide.getAttribute('data-category') === category
+        );
+      }
+
+      // Hide all slides first
+      this.allSlides.forEach(slide => {
+        slide.style.display = 'none';
+        slide.style.order = '9999';
+      });
+
+      // Show and reorder filtered slides
+      this.visibleSlides.forEach((slide, index) => {
+        slide.style.display = 'block';
+        slide.style.order = index.toString();
+      });
+
+      // Reset transform
+      this.track.style.transform = 'translateX(0px)';
+
+      // Wait for layout to update, then update indicators
+      setTimeout(() => {
+        this.updateIndicators();
+        this.updateSlidePosition();
+      }, 10);
     }
 
     updateSlidePosition() {
-      const offset = this.currentIndex * -this.slideWidth;
-      this.track.style.transform = `translateX(${offset}px)`;
+      if (this.visibleSlides.length === 0) return;
+
+      // Get container width to determine slides per view
+      const containerWidth = this.carousel.offsetWidth;
+      const gap = parseFloat(getComputedStyle(this.track).gap) || 0;
+
+      // Calculate the width of the first visible slide (they should all be the same)
+      const firstVisibleSlide = this.visibleSlides[0];
+      if (!firstVisibleSlide) return;
+
+      const slideWidth = firstVisibleSlide.offsetWidth;
+
+      // Calculate offset: each "page" shows multiple slides
+      const offset = this.currentIndex * (slideWidth + gap);
+
+      this.track.style.transform = `translateX(-${offset}px)`;
     }
 
     nextSlide() {
-      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+      if (this.visibleSlides.length === 0) return;
+      this.currentIndex = (this.currentIndex + 1) % this.visibleSlides.length;
       this.updateIndicators();
       this.updateSlidePosition();
     }
 
     previousSlide() {
-      this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+      if (this.visibleSlides.length === 0) return;
+      this.currentIndex = (this.currentIndex - 1 + this.visibleSlides.length) % this.visibleSlides.length;
       this.updateIndicators();
       this.updateSlidePosition();
     }
@@ -154,12 +241,16 @@ const portfolioItems = [
     }
 
     updateIndicators() {
-      this.indicators.forEach((indicator, index) => {
-        if (index === this.currentIndex) {
-          indicator.classList.add('active');
-        } else {
-          indicator.classList.remove('active');
-        }
+      // Clear existing indicators
+      this.indicatorsContainer.innerHTML = '';
+
+      // Create indicators for visible slides
+      this.visibleSlides.forEach((slide, index) => {
+        const indicator = document.createElement('button');
+        indicator.className = `carousel-indicator ${index === this.currentIndex ? 'active' : ''}`;
+        indicator.setAttribute('aria-label', `Ir a imagen ${index + 1}`);
+        indicator.addEventListener('click', () => this.goToSlide(index));
+        this.indicatorsContainer.appendChild(indicator);
       });
     }
   }
