@@ -1,4 +1,4 @@
-# Profesionales del Color - Website
+# Colorprof - Website
 
 Modern, responsive website for a professional painter business. Built with Astro, pure CSS, and deployed on Vercel.
 
@@ -284,9 +284,9 @@ See `.env.local.example` for template.
 
 ## 📞 Contact Information
 
-**Profesionales del Color**
+**Colorprof**
 - 📱 Teléfono: (+34) 638 94 39 62
-- 📧 Email: info@profesionalesdelcolor.com
+- 📧 Email: info@colorprof.es
 - 📍 Ubicación: Madrid, España
 - 🕒 Horario: Lunes-Viernes 9:00-18:00, Sábado 10:00-14:00
 

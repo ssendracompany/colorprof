@@ -56,8 +56,8 @@ Changes are minimal and non-breaking.
 ```html
 <!-- FormSubmit Configuration (hidden fields) -->
 <input type="hidden" name="_captcha" value="false" />
-<input type="hidden" name="_next" value="https://profesionalesdelcolor.com/" />
-<input type="hidden" name="_subject" value="Nuevo contacto: Profesionales del Color" />
+<input type="hidden" name="_next" value="https://colorprof.es/" />
+<input type="hidden" name="_subject" value="Nuevo contacto: Colorprof" />
 ```
 
 **Details:**
@@ -239,17 +239,17 @@ Changes are minimal and non-breaking.
 - [ ] [ ] Submit form
 - [ ] [ ] Verify button shows "Enviando..." state
 - [ ] [ ] Verify button is disabled (opacity 0.6)
-- [ ] [ ] Page redirects to https://profesionalesdelcolor.com
+- [ ] [ ] Page redirects to https://colorprof.es
 - [ ] [ ] Check Plesk webmail inbox for email
 - [ ] [ ] Verify email contains all form data
-- [ ] [ ] Verify email subject is "Nuevo contacto: Profesionales del Color"
+- [ ] [ ] Verify email subject is "Nuevo contacto: Colorprof"
 
 **Acceptance**: Form submits successfully and email is received
 
 ### Task 7.7: Test Email Content
 - [ ] [ ] Email from field is correct sender
 - [ ] [ ] Email to field is info@profesionalesdelcolor.com
-- [ ] [ ] Subject line matches: "Nuevo contacto: Profesionales del Color"
+- [ ] [ ] Subject line matches: "Nuevo contacto: Colorprof"
 - [ ] [ ] Email contains name field
 - [ ] [ ] Email contains email (_replyto) field
 - [ ] [ ] Email contains phone field
@@ -394,7 +394,7 @@ Changes are minimal and non-breaking.
 **Acceptance**: Production deployment successful
 
 ### Task 10.3: Test on Production URL
-- [ ] [ ] Visit: https://profesionalesdelcolor.com
+- [ ] [ ] Visit: https://colorprof.es
 - [ ] [ ] Navigate to contact section
 - [ ] [ ] Fill form with test data
 - [ ] [ ] Submit form

@@ -8,12 +8,11 @@ import '@/styles/components/header.css';
       <a href="/" class="header-logo">
         <img
           src="/logo.png"
-          alt="Logo de Profesionales del Color"
+          alt="Logo de Colorprof"
           class="logo-image"
         />
         <span class="logo-text">
-          <span class="logo-text-main">Profesionales</span>
-          <span class="logo-text-sub">del Color</span>
+          <span class="logo-text-main">Colorprof</span>
         </span>
       </a>
 
@@ -87,9 +86,14 @@ import '@/styles/components/header.css';
       console.log('Clicked! isExpanded:', isExpanded);
 
       toggle.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
-      mobileNav.hidden = isExpanded;
 
-      console.log('After toggle - hidden:', mobileNav.hidden);
+      if (isExpanded) {
+        mobileNav.setAttribute('hidden', '');
+      } else {
+        mobileNav.removeAttribute('hidden');
+      }
+
+      console.log('After toggle - hidden:', mobileNav.hasAttribute('hidden'));
       console.log('Mobile nav styles:', window.getComputedStyle(mobileNav).display);
       console.log('Mobile nav z-index:', window.getComputedStyle(mobileNav).zIndex);
 
@@ -106,16 +110,16 @@ import '@/styles/components/header.css';
     mobileLinks.forEach((link) => {
       link.addEventListener('click', () => {
         toggle.setAttribute('aria-expanded', 'false');
-        mobileNav.hidden = true;
+        mobileNav.setAttribute('hidden', '');
         document.body.style.overflow = '';
       });
     });
 
     // Close menu on Escape key
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !mobileNav.hidden) {
+      if (e.key === 'Escape' && !mobileNav.hasAttribute('hidden')) {
         toggle.setAttribute('aria-expanded', 'false');
-        mobileNav.hidden = true;
+        mobileNav.setAttribute('hidden', '');
         document.body.style.overflow = '';
       }
     });

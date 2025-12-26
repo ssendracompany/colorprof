@@ -1,5 +1,5 @@
 {
-  "name": "profesionales-del-color",
+  "name": "colorprof",
   "version": "1.0.0",
   "description": "Professional painter website - Modern, responsive, dark mode design",
   "type": "module",
@@ -29,10 +29,11 @@
     "responsive",
     "dark-mode"
   ],
-  "author": "Profesionales del Color",
+  "author": "Colorprof",
   "license": "MIT",
   "dependencies": {
     "@astrojs/vercel": "^9.0.1",
+    "@vercel/analytics": "^1.6.1",
     "astro": "^5.15.9"
   },
   "devDependencies": {
@@ -45,9 +46,9 @@
     "@vitest/ui": "^4.0.4",
     "axe-playwright": "^1.2.3",
     "eslint": "^9.16.0",
+    "jsdom": "^24.1.0",
     "prettier": "^3.4.1",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.4",
-    "jsdom": "^24.1.0"
+    "vitest": "^4.0.4"
   }
 }

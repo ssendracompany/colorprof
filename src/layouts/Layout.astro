@@ -2,6 +2,7 @@
 import '@/styles/variables.css';
 import '@/styles/global.css';
 import WhatsAppWidget from '@/components/WhatsAppWidget.astro';
+import Analytics from '@vercel/analytics/astro';
 
 export interface Props {
   title: string;
@@ -13,72 +14,63 @@ export interface Props {
 
 const {
   title,
-  description = 'Profesionales del Color - Servicios profesionales de pintura',
+  description = 'Colorprof - Servicios profesionales de pintura',
   image = '/og-image.jpg',
-  url = 'https://profesionalesdelcolor.com',
-  author = 'Profesionales del Color'
+  url = 'https://www.colorprof.es',
+  author = 'Colorprof'
 } = Astro.props;
 
-const siteURL = 'https://profesionalesdelcolor.com';
+const siteURL = 'https://www.colorprof.es';
 const canonicalURL = siteURL + Astro.url.pathname;
 const ogImage = siteURL + image;
 ---
 
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#121212" />
-    <meta name="description" content={description} />
-    <meta name="author" content={author} />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#121212" />
+  <meta name="description" content={description} />
+  <meta name="author" content={author} />
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href={canonicalURL} />
+  <!-- Canonical URL -->
+  <link rel="canonical" href={canonicalURL} />
 
-    <!-- Open Graph -->
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:url" content={url} />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_ES" />
+  <!-- Open Graph -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:url" content={url} />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_ES" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate icon" type="image/png" href="/favicon.png" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="alternate icon" type="image/png" href="/favicon.svg" />
 
-    <!-- Preconnect to external resources -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Preconnect to external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 
-    <!-- Robots & Sitemap -->
-    <link rel="sitemap" href="/sitemap.xml" />
+  <!-- Robots & Sitemap -->
+  <link rel="sitemap" href="/sitemap.xml" />
 
-    <title>{title}</title>
-
-    <!-- Vercel Analytics -->
-    <script defer src="https://cdn.vercel-analytics.com/v1/web.js"></script>
-  </head>
-  <body>
-    <slot />
-
-    <!-- WhatsApp Widget -->
-    <WhatsAppWidget />
-
-    <!-- Vercel Web Analytics -->
-    <script>
-      window.va = window.va || function (...args: any[]) { (window.vaq = window.vaq || []).push(args); };
-    </script>
-  </body>
+  <title>{title}</title>
+</head>
+<body>
+<slot />
+<WhatsAppWidget />
+<Analytics />
+</body>
 </html>
 
 <style is:global>
-  /* Layout specific styles can go here */
+    /* Layout specific styles can go here */
 </style>

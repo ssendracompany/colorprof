@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://profesionalesdelcolor.com/sitemap.xml
+Sitemap: https://colorprof.es/sitemap.xml
 
 # Disallow crawling of specific paths (if needed)
 # Disallow: /admin/

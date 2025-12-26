@@ -1,4 +1,4 @@
-# Galería de Imágenes - Profesionales del Color
+# Galería de Imágenes - Colorprof
 
 ## Estructura de Carpetas
 
