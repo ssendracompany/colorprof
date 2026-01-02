@@ -138,26 +138,203 @@ const serviceTypes = [
 </section>
 
 <script>
-  // Get form elements
+  import { validateContactForm } from '../utils/contactFormValidation';
+  import type { z } from 'zod';
+
+  let hasAttemptedSubmit = false;
+  const validatedFields = new Set<string>();
+
   const form = document.querySelector('.contact-form') as HTMLFormElement;
   const submitButton = form?.querySelector('.submit-button') as HTMLButtonElement;
   const honeypotField = form?.querySelector('[name="_honeypot"]') as HTMLInputElement;
 
-  if (form && submitButton) {
-    form.addEventListener('submit', (e: Event) => {
-      // Check honeypot field - if filled, likely spam bot
-      if (honeypotField && honeypotField.value) {
-        console.log('Honeypot filled - spam detected, preventing submission');
-        e.preventDefault();
+  type FieldErrors = Record<string, string>;
+
+  function getFormData(): Record<string, string> {
+    const formData = new FormData(form);
+    return {
+      nombre: formData.get('name') as string || '',
+      email: formData.get('_replyto') as string || '',
+      telefono: formData.get('phone') as string || '',
+      servicio: formData.get('service') as string || '',
+      mensaje: formData.get('message') as string || ''
+    };
+  }
+
+  function showFieldError(fieldName: string, message: string): void {
+    const fieldMap: Record<string, string> = {
+      nombre: 'name',
+      email: 'email',
+      telefono: 'phone',
+      servicio: 'service',
+      mensaje: 'message'
+    };
+
+    const fieldId = fieldMap[fieldName];
+    if (!fieldId) return;
+
+    const field = form.querySelector(`#${fieldId}`) as HTMLInputElement;
+    const formGroup = field?.closest('.form-group');
+
+    if (!field || !formGroup) return;
+
+    clearFieldError(fieldId);
+
+    field.classList.add('form-input--error');
+    field.setAttribute('aria-invalid', 'true');
+
+    formGroup.classList.add('form-group--error');
+
+    const errorId = `${fieldId}-error`;
+    const errorMessage = document.createElement('span');
+    errorMessage.id = errorId;
+    errorMessage.className = 'form-error-message';
+    errorMessage.setAttribute('role', 'alert');
+    errorMessage.textContent = message;
+
+    field.setAttribute('aria-describedby', errorId);
+    formGroup.appendChild(errorMessage);
+  }
+
+  function clearFieldError(fieldId: string): void {
+    const field = form.querySelector(`#${fieldId}`) as HTMLInputElement;
+    const formGroup = field?.closest('.form-group');
+    const existingError = formGroup?.querySelector('.form-error-message');
+
+    if (field) {
+      field.classList.remove('form-input--error');
+      field.classList.remove('form-input--valid');
+      field.removeAttribute('aria-invalid');
+      field.removeAttribute('aria-describedby');
+    }
+
+    if (formGroup) {
+      formGroup.classList.remove('form-group--error');
+    }
+
+    if (existingError) {
+      existingError.remove();
+    }
+  }
+
+  function clearAllErrors(): void {
+    const fieldIds = ['name', 'email', 'phone', 'service', 'message'];
+    fieldIds.forEach(clearFieldError);
+  }
+
+  function displayErrors(errors: z.ZodError): void {
+    const fieldErrors: FieldErrors = {};
+
+    errors.errors.forEach(error => {
+      const fieldName = error.path[0] as string;
+      if (!fieldErrors[fieldName]) {
+        fieldErrors[fieldName] = error.message;
+      }
+    });
+
+    Object.entries(fieldErrors).forEach(([fieldName, message]) => {
+      showFieldError(fieldName, message);
+    });
+
+    const firstErrorField = form.querySelector('[aria-invalid="true"]') as HTMLInputElement;
+    firstErrorField?.focus();
+  }
+
+  function validateField(fieldId: string): boolean {
+    const formData = getFormData();
+    const result = validateContactForm(formData);
+
+    const schemaFieldMap: Record<string, string> = {
+      name: 'nombre',
+      email: 'email',
+      phone: 'telefono',
+      service: 'servicio',
+      message: 'mensaje'
+    };
+
+    const schemaFieldName = schemaFieldMap[fieldId];
+    if (!schemaFieldName) return true;
+
+    clearFieldError(fieldId);
+
+    if (!result.success) {
+      const fieldError = result.error.errors.find(
+        err => err.path[0] === schemaFieldName
+      );
+
+      if (fieldError) {
+        showFieldError(schemaFieldName, fieldError.message);
         return false;
       }
+    }
 
-      // Update button state to indicate loading
-      submitButton.disabled = true;
-      submitButton.textContent = 'Enviando...';
+    const field = form.querySelector(`#${fieldId}`) as HTMLInputElement;
+    if (field && validatedFields.has(fieldId)) {
+      field.classList.add('form-input--valid');
+    }
 
-      // Allow form to submit to FormSubmit.co
-      // FormSubmit will handle the actual submission
+    return true;
+  }
+
+  function handleSubmit(e: Event): void {
+    e.preventDefault();
+
+    if (honeypotField && honeypotField.value) {
+      console.log('Honeypot filled - spam detected, preventing submission');
+      return;
+    }
+
+    hasAttemptedSubmit = true;
+    clearAllErrors();
+
+    const formData = getFormData();
+    const result = validateContactForm(formData);
+
+    if (!result.success) {
+      displayErrors(result.error);
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviando...';
+
+    form.submit();
+  }
+
+  function handleFieldBlur(e: Event): void {
+    if (!hasAttemptedSubmit && !validatedFields.has((e.target as HTMLElement).id)) {
+      return;
+    }
+
+    const fieldId = (e.target as HTMLElement).id;
+    validatedFields.add(fieldId);
+    validateField(fieldId);
+  }
+
+  function handleFieldInput(e: Event): void {
+    const fieldId = (e.target as HTMLElement).id;
+
+    if (validatedFields.has(fieldId)) {
+      validateField(fieldId);
+    }
+  }
+
+  function initFormValidation(): void {
+    if (!form) return;
+
+    form.addEventListener('submit', handleSubmit);
+
+    const fields = ['name', 'email', 'phone', 'service', 'message'];
+    fields.forEach(fieldId => {
+      const field = form.querySelector(`#${fieldId}`);
+      field?.addEventListener('blur', handleFieldBlur);
+      field?.addEventListener('input', handleFieldInput);
     });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFormValidation);
+  } else {
+    initFormValidation();
   }
 </script>
