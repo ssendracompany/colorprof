@@ -302,10 +302,6 @@ const serviceTypes = [
   }
 
   function handleFieldBlur(e: Event): void {
-    if (!hasAttemptedSubmit && !validatedFields.has((e.target as HTMLElement).id)) {
-      return;
-    }
-
     const fieldId = (e.target as HTMLElement).id;
     validatedFields.add(fieldId);
     validateField(fieldId);
