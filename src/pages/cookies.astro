@@ -6,7 +6,7 @@ import Layout from '@/layouts/Layout.astro';
   <main id="main" class="legal-page">
     <section class="legal-container">
       <h1>Política de Cookies</h1>
-      <p class="last-updated">Última actualización: Noviembre 2025</p>
+      <p class="last-updated">Última actualización: Enero 2026</p>
 
       <div class="legal-content">
         <h2>1. ¿Qué son las Cookies?</h2>
@@ -28,13 +28,45 @@ import Layout from '@/layouts/Layout.astro';
 
         <h3>Cookies de Análisis</h3>
         <p>
-          Utilizamos Vercel Analytics para entender cómo los usuarios interactúan con nuestro sitio. Estas cookies nos ayudan a:
+          Utilizamos Google Analytics 4 (GA4) y Vercel Analytics para entender cómo los usuarios interactúan con nuestro sitio. Estas cookies nos ayudan a:
         </p>
         <ul>
           <li>Analizar patrones de uso del sitio</li>
           <li>Mejorar la funcionalidad y rendimiento</li>
           <li>Identificar páginas con problemas</li>
+          <li>Comprender las fuentes de tráfico</li>
         </ul>
+
+        <h4>Google Analytics 4</h4>
+        <p>
+          Google Analytics 4 es un servicio de análisis web proporcionado por Google LLC. Recopila información de forma automática:
+        </p>
+        <ul>
+          <li><strong>Navegación:</strong> Páginas visitadas, tiempo en el sitio, fuente de referencia</li>
+          <li><strong>Técnica:</strong> Tipo de navegador, sistema operativo, resolución de pantalla</li>
+          <li><strong>Red:</strong> Dirección IP (anonimizada), proveedor de servicios de Internet</li>
+          <li><strong>Dispositivo:</strong> Tipo de dispositivo (móvil, tablet, escritorio)</li>
+        </ul>
+
+        <p>
+          <strong>Cookies de GA4:</strong>
+        </p>
+        <ul>
+          <li><code>_ga</code> - Identifica usuarios únicos (duración: 2 años)</li>
+          <li><code>_ga_&lt;container-id&gt;</code> - Persiste el estado de la sesión (duración: 2 años)</li>
+        </ul>
+
+        <p>
+          <strong>GDPR Compliance:</strong> Google Analytics está configurado con IP anonimizada, lo que significa que tu dirección IP es truncada antes de ser procesada, cumpliendo con los requisitos de privacidad de GDPR.
+        </p>
+
+        <p>
+          <strong>Transferencias Internacionales:</strong> Los datos recopilados pueden ser transferidos a servidores de Google LLC en Estados Unidos. Google participa en el marco de privacidad EU-U.S. Data Privacy Framework y ha implementado cláusulas contractuales estándar (SCC) aprobadas por la Comisión Europea. Más información en la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidad de Google</a>.
+        </p>
+
+        <p>
+          <strong>Control de tus datos:</strong> Puedes optar por no participar en Google Analytics mediante el banner de consentimiento de este sitio o instalando el <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">complemento de inhabilitación de Google Analytics</a>.
+        </p>
 
         <h3>Cookies de Marketing</h3>
         <p>
@@ -134,6 +166,22 @@ import Layout from '@/layouts/Layout.astro';
     color: var(--color-text);
     margin-top: var(--spacing-lg);
     margin-bottom: var(--spacing-sm);
+  }
+
+  .legal-content h4 {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .legal-content code {
+    background-color: var(--color-background-secondary, rgba(0, 0, 0, 0.05));
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9em;
   }
 
   .legal-content p {

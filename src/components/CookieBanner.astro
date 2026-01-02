@@ -1,0 +1,128 @@
+---
+// CookieBanner.astro
+// Simple bottom bar cookie consent banner
+// Uses localStorage to persist user's choice
+---
+
+<div id="cookie-banner" class="hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-slate-200 shadow-2xl z-50 dark:bg-slate-900/95 dark:border-slate-700">
+  <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-5">
+      <div class="flex items-start gap-4 flex-1">
+        <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-50 flex-shrink-0 dark:bg-blue-900/30">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div class="text-sm text-slate-700 dark:text-slate-300">
+          <p class="leading-relaxed">
+            Utilizamos cookies propias y de terceros para mejorar nuestros servicios y analizar el uso del sitio web.
+            Puede obtener más información en nuestra
+            <a href="/cookies" class="text-blue-600 hover:text-blue-700 font-medium underline decoration-2 underline-offset-2 dark:text-blue-400 dark:hover:text-blue-300">Política de Cookies</a>.
+          </p>
+        </div>
+      </div>
+      <div class="flex gap-3 flex-shrink-0">
+        <button
+          id="cookie-reject"
+          class="px-5 py-2.5 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all duration-200 dark:text-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700"
+          aria-label="Rechazar cookies"
+        >
+          Rechazar
+        </button>
+        <button
+          id="cookie-accept"
+          class="px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:shadow-lg hover:shadow-blue-500/30 rounded-xl transition-all duration-200"
+          aria-label="Aceptar todas las cookies"
+        >
+          Aceptar todas
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Declaración de tipos para GA4
+  declare global {
+    interface Window {
+      initGoogleAnalytics?: () => void;
+      GA_INITIALIZED?: boolean;
+      dataLayer?: any[];
+      gtag?: (...args: any[]) => void;
+    }
+  }
+
+  const STORAGE_KEY = 'colorprof_cookies';
+  const CONSENT_ACCEPTED = 'accepted';
+  const CONSENT_REJECTED = 'rejected';
+
+  function getCookieConsent(): string | null {
+    try {
+      return localStorage.getItem(STORAGE_KEY);
+    } catch (error) {
+      console.error('Error reading cookie consent from localStorage:', error);
+      return null;
+    }
+  }
+
+  function setCookieConsent(value: string): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, value);
+    } catch (error) {
+      console.error('Error saving cookie consent to localStorage:', error);
+    }
+  }
+
+  function hideBanner(): void {
+    const banner = document.getElementById('cookie-banner');
+    if (banner) {
+      banner.classList.add('hidden');
+    }
+  }
+
+  function showBanner(): void {
+    const banner = document.getElementById('cookie-banner');
+    if (banner) {
+      banner.classList.remove('hidden');
+    }
+  }
+
+  function handleAcceptCookies(): void {
+    setCookieConsent(CONSENT_ACCEPTED);
+    hideBanner();
+
+    // Inicializar Google Analytics si está disponible
+    if (typeof window.initGoogleAnalytics === 'function') {
+      console.log('[CookieBanner] Initializing Google Analytics after consent');
+      window.initGoogleAnalytics();
+    } else {
+      console.log('[CookieBanner] Google Analytics not available');
+    }
+  }
+
+  function handleRejectCookies(): void {
+    setCookieConsent(CONSENT_REJECTED);
+    hideBanner();
+  }
+
+  function initCookieBanner(): void {
+    const consent = getCookieConsent();
+
+    if (!consent) {
+      showBanner();
+    }
+
+    const acceptButton = document.getElementById('cookie-accept');
+    const rejectButton = document.getElementById('cookie-reject');
+
+    acceptButton?.addEventListener('click', handleAcceptCookies);
+    rejectButton?.addEventListener('click', handleRejectCookies);
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCookieBanner);
+  } else {
+    initCookieBanner();
+  }
+</script>

@@ -2,6 +2,8 @@
 import '@/styles/variables.css';
 import '@/styles/global.css';
 import WhatsAppWidget from '@/components/WhatsAppWidget.astro';
+import CookieBanner from '@/components/CookieBanner.astro';
+import GoogleAnalytics from '@/components/GoogleAnalytics.astro';
 import Analytics from '@vercel/analytics/astro';
 
 export interface Props {
@@ -62,11 +64,15 @@ const ogImage = siteURL + image;
   <!-- Robots & Sitemap -->
   <link rel="sitemap" href="/sitemap.xml" />
 
+  <!-- Google Analytics 4 -->
+  <GoogleAnalytics />
+
   <title>{title}</title>
 </head>
 <body>
 <slot />
 <WhatsAppWidget />
+<CookieBanner />
 <Analytics />
 </body>
 </html>
