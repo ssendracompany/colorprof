@@ -1,0 +1,61 @@
+---
+const GA_MEASUREMENT_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+
+// Solo renderizar si hay Measurement ID configurado
+const shouldRenderGA = GA_MEASUREMENT_ID && GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX';
+---
+
+{shouldRenderGA && (
+  <>
+    <!-- Google Analytics 4 - gtag.js -->
+    <script is:inline define:vars={{ GA_MEASUREMENT_ID }}>
+      // Función global para inicializar GA4
+      window.initGoogleAnalytics = function() {
+        if (window.GA_INITIALIZED) {
+          console.log('[GA4] Already initialized');
+          return;
+        }
+
+        console.log('[GA4] Initializing Google Analytics...');
+
+        // Cargar gtag.js de forma asíncrona
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+        document.head.appendChild(script);
+
+        // Inicializar dataLayer y gtag
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+
+        gtag('js', new Date());
+        gtag('config', GA_MEASUREMENT_ID, {
+          anonymize_ip: true,  // GDPR compliance
+          send_page_view: true
+        });
+
+        window.GA_INITIALIZED = true;
+        console.log('[GA4] Initialized successfully');
+      };
+
+      // Verificar si ya hay consentimiento al cargar la página
+      (function checkInitialConsent() {
+        const STORAGE_KEY = 'colorprof_cookies';
+        const CONSENT_ACCEPTED = 'accepted';
+
+        try {
+          const consent = localStorage.getItem(STORAGE_KEY);
+          if (consent === CONSENT_ACCEPTED) {
+            console.log('[GA4] Consent already granted, initializing...');
+            window.initGoogleAnalytics();
+          } else {
+            console.log('[GA4] Waiting for user consent...');
+          }
+        } catch (error) {
+          console.error('[GA4] Error checking consent:', error);
+        }
+      })();
+    </script>
+  </>
+)}
