@@ -1,5 +1,6 @@
 ---
 import '@/styles/components/contact.css';
+import Toast from './Toast.astro';
 
 const serviceTypes = [
   'Pintura Interior',
@@ -33,12 +34,14 @@ const serviceTypes = [
           <input
             type="email"
             id="email"
-            name="_replyto"
+            name="email"
             class="form-input"
             placeholder="tu.email@ejemplo.com"
             required
             aria-required="true"
           />
+          <!-- Campo oculto para configurar reply-to en FormSubmit.co -->
+          <input type="hidden" name="_replyto" id="email-replyto" />
         </div>
 
         <div class="form-group">
@@ -48,7 +51,7 @@ const serviceTypes = [
             id="phone"
             name="phone"
             class="form-input"
-            placeholder="Ej: +34 600 123 456"
+            placeholder="Ej: 600 123 456"
           />
         </div>
 
@@ -137,27 +140,249 @@ const serviceTypes = [
   </div>
 </section>
 
+<Toast />
+
 <script>
-  // Get form elements
+  import { validateContactForm } from '../utils/contactFormValidation';
+  import type { z } from 'zod';
+
+  let hasAttemptedSubmit = false;
+  const validatedFields = new Set<string>();
+
   const form = document.querySelector('.contact-form') as HTMLFormElement;
   const submitButton = form?.querySelector('.submit-button') as HTMLButtonElement;
   const honeypotField = form?.querySelector('[name="_honeypot"]') as HTMLInputElement;
 
-  if (form && submitButton) {
-    form.addEventListener('submit', (e: Event) => {
-      // Check honeypot field - if filled, likely spam bot
-      if (honeypotField && honeypotField.value) {
-        console.log('Honeypot filled - spam detected, preventing submission');
-        e.preventDefault();
+  type FieldErrors = Record<string, string>;
+
+  function getFormData(): Record<string, string> {
+    const formData = new FormData(form);
+    return {
+      nombre: formData.get('name') as string || '',
+      email: formData.get('email') as string || '',
+      telefono: formData.get('phone') as string || '',
+      servicio: formData.get('service') as string || '',
+      mensaje: formData.get('message') as string || ''
+    };
+  }
+
+  function syncEmailToReplyTo(): void {
+    const emailField = form.querySelector('#email') as HTMLInputElement;
+    const replyToField = form.querySelector('#email-replyto') as HTMLInputElement;
+
+    if (emailField && replyToField) {
+      emailField.addEventListener('input', () => {
+        replyToField.value = emailField.value;
+      });
+    }
+  }
+
+  function showFieldError(fieldName: string, message: string): void {
+    const fieldMap: Record<string, string> = {
+      nombre: 'name',
+      email: 'email',
+      telefono: 'phone',
+      servicio: 'service',
+      mensaje: 'message'
+    };
+
+    const fieldId = fieldMap[fieldName];
+    if (!fieldId) return;
+
+    const field = form.querySelector(`#${fieldId}`) as HTMLInputElement;
+    const formGroup = field?.closest('.form-group');
+
+    if (!field || !formGroup) return;
+
+    clearFieldError(fieldId);
+
+    field.classList.add('form-input--error');
+    field.setAttribute('aria-invalid', 'true');
+
+    formGroup.classList.add('form-group--error');
+
+    const errorId = `${fieldId}-error`;
+    const errorMessage = document.createElement('span');
+    errorMessage.id = errorId;
+    errorMessage.className = 'form-error-message';
+    errorMessage.setAttribute('role', 'alert');
+    errorMessage.textContent = message;
+
+    field.setAttribute('aria-describedby', errorId);
+    formGroup.appendChild(errorMessage);
+  }
+
+  function clearFieldError(fieldId: string): void {
+    const field = form.querySelector(`#${fieldId}`) as HTMLInputElement;
+    const formGroup = field?.closest('.form-group');
+    const existingError = formGroup?.querySelector('.form-error-message');
+
+    if (field) {
+      field.classList.remove('form-input--error');
+      field.classList.remove('form-input--valid');
+      field.removeAttribute('aria-invalid');
+      field.removeAttribute('aria-describedby');
+    }
+
+    if (formGroup) {
+      formGroup.classList.remove('form-group--error');
+    }
+
+    if (existingError) {
+      existingError.remove();
+    }
+  }
+
+  function clearAllErrors(): void {
+    const fieldIds = ['name', 'email', 'phone', 'service', 'message'];
+    fieldIds.forEach(clearFieldError);
+  }
+
+  function displayErrors(errors: z.ZodError): void {
+    const fieldErrors: FieldErrors = {};
+
+    errors.errors.forEach(error => {
+      const fieldName = error.path[0] as string;
+      if (!fieldErrors[fieldName]) {
+        fieldErrors[fieldName] = error.message;
+      }
+    });
+
+    Object.entries(fieldErrors).forEach(([fieldName, message]) => {
+      showFieldError(fieldName, message);
+    });
+
+    const firstErrorField = form.querySelector('[aria-invalid="true"]') as HTMLInputElement;
+    firstErrorField?.focus();
+  }
+
+  function validateField(fieldId: string): boolean {
+    const formData = getFormData();
+    const result = validateContactForm(formData);
+
+    const schemaFieldMap: Record<string, string> = {
+      name: 'nombre',
+      email: 'email',
+      phone: 'telefono',
+      service: 'servicio',
+      message: 'mensaje'
+    };
+
+    const schemaFieldName = schemaFieldMap[fieldId];
+    if (!schemaFieldName) return true;
+
+    clearFieldError(fieldId);
+
+    if (!result.success) {
+      const fieldError = result.error.errors.find(
+        err => err.path[0] === schemaFieldName
+      );
+
+      if (fieldError) {
+        showFieldError(schemaFieldName, fieldError.message);
         return false;
       }
+    }
 
-      // Update button state to indicate loading
-      submitButton.disabled = true;
-      submitButton.textContent = 'Enviando...';
+    const field = form.querySelector(`#${fieldId}`) as HTMLInputElement;
+    if (field && validatedFields.has(fieldId)) {
+      field.classList.add('form-input--valid');
+    }
 
-      // Allow form to submit to FormSubmit.co
-      // FormSubmit will handle the actual submission
+    return true;
+  }
+
+  async function handleSubmit(e: Event): Promise<void> {
+    e.preventDefault();
+
+    if (honeypotField && honeypotField.value) {
+      console.log('Honeypot filled - spam detected, preventing submission');
+      return;
+    }
+
+    hasAttemptedSubmit = true;
+    clearAllErrors();
+
+    const formData = getFormData();
+    const result = validateContactForm(formData);
+
+    if (!result.success) {
+      displayErrors(result.error);
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviando...';
+
+    try {
+      const formDataObj = new FormData(form);
+      const formDataJson: Record<string, string> = {};
+
+      formDataObj.forEach((value, key) => {
+        formDataJson[key] = value.toString();
+      });
+
+      const response = await fetch('https://formsubmit.co/ajax/info@colorprof.es', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formDataJson)
+      });
+
+      const data = await response.json();
+      console.log('Response:', data);
+
+      if (response.ok && data.success) {
+        (window as any).showToast('¡Mensaje enviado correctamente!', 'success');
+        form.reset();
+        validatedFields.clear();
+        hasAttemptedSubmit = false;
+      } else {
+        console.error('Response error:', data);
+        (window as any).showToast('Error al enviar el mensaje. Por favor, inténtalo de nuevo.', 'error');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      (window as any).showToast('Error al enviar el mensaje. Por favor, inténtalo de nuevo.', 'error');
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Enviar Solicitud';
+    }
+  }
+
+  function handleFieldBlur(e: Event): void {
+    const fieldId = (e.target as HTMLElement).id;
+    validatedFields.add(fieldId);
+    validateField(fieldId);
+  }
+
+  function handleFieldInput(e: Event): void {
+    const fieldId = (e.target as HTMLElement).id;
+
+    if (validatedFields.has(fieldId)) {
+      validateField(fieldId);
+    }
+  }
+
+  function initFormValidation(): void {
+    if (!form) return;
+
+    syncEmailToReplyTo();
+    form.addEventListener('submit', handleSubmit);
+
+    const fields = ['name', 'email', 'phone', 'service', 'message'];
+    fields.forEach(fieldId => {
+      const field = form.querySelector(`#${fieldId}`);
+      field?.addEventListener('blur', handleFieldBlur);
+      field?.addEventListener('input', handleFieldInput);
     });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFormValidation);
+  } else {
+    initFormValidation();
   }
 </script>

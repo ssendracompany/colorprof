@@ -1,0 +1,208 @@
+---
+// Toast.astro
+// Toast notification component for success/error messages
+// Auto-closes after 5 seconds
+---
+
+<div id="toast" class="toast hidden" role="alert" aria-live="polite" aria-atomic="true">
+  <div class="toast__container">
+    <div class="toast__icon" id="toast-icon">
+      <!-- Icon will be injected by JavaScript -->
+    </div>
+    <div class="toast__message" id="toast-message">
+      <!-- Message will be injected by JavaScript -->
+    </div>
+  </div>
+</div>
+
+<style>
+  .toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 10000;
+    min-width: 300px;
+    max-width: 500px;
+    background-color: var(--color-background-secondary);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    animation: toast-slide-in 0.3s ease-out;
+  }
+
+  .toast.hidden {
+    display: none;
+  }
+
+  .toast.toast--success {
+    border-left: 4px solid #10b981;
+  }
+
+  .toast.toast--error {
+    border-left: 4px solid #ef4444;
+  }
+
+  .toast.toast--hiding {
+    animation: toast-slide-out 0.3s ease-out forwards;
+  }
+
+  .toast__container {
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .toast__icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .toast--success .toast__icon {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+  }
+
+  .toast--error .toast__icon {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+  }
+
+  .toast__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .toast__message {
+    flex: 1;
+    color: var(--color-text);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+    font-weight: var(--font-weight-medium);
+  }
+
+  @keyframes toast-slide-in {
+    from {
+      transform: translateX(calc(100% + 24px));
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes toast-slide-out {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(calc(100% + 24px));
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .toast {
+      top: 16px;
+      right: 16px;
+      left: 16px;
+      min-width: auto;
+      max-width: none;
+    }
+
+    @keyframes toast-slide-in {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes toast-slide-out {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+    }
+  }
+</style>
+
+<script>
+  type ToastType = 'success' | 'error';
+
+  const SUCCESS_ICON = `
+    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+    </svg>
+  `;
+
+  const ERROR_ICON = `
+    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  `;
+
+  let hideTimeout: number | null = null;
+
+  function showToast(message: string, type: ToastType = 'success'): void {
+    const toast = document.getElementById('toast');
+    const toastIcon = document.getElementById('toast-icon');
+    const toastMessage = document.getElementById('toast-message');
+
+    if (!toast || !toastIcon || !toastMessage) return;
+
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+      hideTimeout = null;
+    }
+
+    toast.classList.remove('hidden', 'toast--hiding', 'toast--success', 'toast--error');
+    toast.classList.add(`toast--${type}`);
+
+    toastIcon.innerHTML = type === 'success' ? SUCCESS_ICON : ERROR_ICON;
+    toastMessage.textContent = message;
+
+    setTimeout(() => {
+      toast.classList.remove('hidden');
+    }, 10);
+
+    hideTimeout = window.setTimeout(() => {
+      hideToast();
+    }, 5000);
+  }
+
+  function hideToast(): void {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+
+    toast.classList.add('toast--hiding');
+
+    setTimeout(() => {
+      toast.classList.add('hidden');
+      toast.classList.remove('toast--hiding', 'toast--success', 'toast--error');
+    }, 300);
+
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+      hideTimeout = null;
+    }
+  }
+
+  (window as any).showToast = showToast;
+  (window as any).hideToast = hideToast;
+</script>

@@ -1,6 +1,7 @@
 /* ============================================================================
    Contact Form Component Styles
    Mobile-First Responsive Design - Modern Glassmorphic
+   Last Updated: 2026-01-03 - Validation styles enhanced
    ============================================================================ */
 
 :root {
@@ -189,6 +190,16 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
+/* Focus state should not override error state */
+.form-input--error:focus {
+  border-color: #dc2626 !important;
+  border-width: 2.5px !important;
+  border-style: solid !important;
+  box-shadow: 0 0 0 5px rgba(220, 38, 38, 0.4),
+              0 0 25px rgba(239, 68, 68, 0.35) !important;
+  background: rgba(239, 68, 68, 0.12) !important;
+}
+
 /* Textarea */
 .form-input[type="textarea"] {
   resize: vertical;
@@ -341,6 +352,67 @@ textarea.form-input {
   color: var(--color-accent-hover);
 }
 
+/* ============================================================================
+   Validation States
+   ============================================================================ */
+
+/* Error State - Highly visible red border and glow */
+.form-input--error {
+  border-color: #dc2626 !important;
+  border-width: 2.5px !important;
+  border-style: solid !important;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.3),
+              0 0 20px rgba(239, 68, 68, 0.25) !important;
+  background: rgba(239, 68, 68, 0.12) !important;
+}
+
+/* Valid State (optional - only show after validation) */
+.form-input--valid {
+  border-color: #10b981;
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);
+}
+
+.form-input--valid:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+}
+
+/* Error Message - Small, bright red text */
+.form-error-message {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  font-size: 0.7rem !important;
+  color: #ef4444 !important;
+  line-height: 1.3;
+  font-weight: 500;
+  animation: slideDown 0.2s ease-out;
+}
+
+.form-error-message::before {
+  content: '⚠';
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* Slide Down Animation for Error Appearance */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Error State for Form Group */
+.form-group--error .form-label {
+  color: #ef4444;
+}
+
 /* Mobile: 1 column layout */
 @media (max-width: 839px) {
   .contact-form {
@@ -489,6 +561,10 @@ textarea.form-input {
   .form-submit::before {
     display: none;
   }
+
+  .form-error-message {
+    animation: none;
+  }
 }
 
 /* Accessibility: High Contrast Mode */
@@ -508,5 +584,14 @@ textarea.form-input {
   .form-select:focus,
   .form-textarea:focus {
     border-width: 3px;
+  }
+
+  .form-input--error {
+    border-width: 3px;
+    border-color: #ef4444;
+  }
+
+  .form-error-message {
+    font-weight: 600;
   }
 }
