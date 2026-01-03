@@ -86,22 +86,36 @@ const serviceTypes = [
         </div>
 
         <!-- FormSubmit Configuration (hidden fields) -->
-        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_captcha" value="true" />
         <input type="hidden" name="_next" value="https://colorprof.es/" />
         <input type="hidden" name="_subject" value="Nuevo contacto: Colorprof" />
 
-        <!-- Honeypot anti-spam field (hidden from users) -->
+        <!-- Honeypot anti-spam fields (multiple, hidden from users) -->
         <div class="form-group form-group--honeypot">
-          <label for="honeypot" class="form-label">Website</label>
+          <label for="website-url" class="form-label">Website URL</label>
           <input
             type="text"
-            id="honeypot"
-            name="_honeypot"
+            id="website-url"
+            name="_honeypot_url"
             class="form-input"
             tabindex="-1"
             autocomplete="off"
             aria-hidden="true"
-            style="display: none;"
+            style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+          />
+        </div>
+
+        <div class="form-group form-group--honeypot">
+          <label for="company-name" class="form-label">Company Name</label>
+          <input
+            type="text"
+            id="company-name"
+            name="_honeypot_company"
+            class="form-input"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+            style="position: absolute; left: -9999px; width: 1px; height: 1px;"
           />
         </div>
 
@@ -152,9 +166,35 @@ const serviceTypes = [
 
   const form = document.querySelector('.contact-form') as HTMLFormElement;
   const submitButton = form?.querySelector('.submit-button') as HTMLButtonElement;
-  const honeypotField = form?.querySelector('[name="_honeypot"]') as HTMLInputElement;
+
+  const RATE_LIMIT_MINUTES = 5;
+  const RATE_LIMIT_KEY = 'colorprof_form_last_submit';
 
   type FieldErrors = Record<string, string>;
+
+  function checkRateLimit(): boolean {
+    const lastSubmitTime = localStorage.getItem(RATE_LIMIT_KEY);
+
+    if (lastSubmitTime) {
+      const timeSinceLastSubmit = Date.now() - parseInt(lastSubmitTime, 10);
+      const minutesSinceLastSubmit = timeSinceLastSubmit / (1000 * 60);
+
+      if (minutesSinceLastSubmit < RATE_LIMIT_MINUTES) {
+        const remainingMinutes = Math.ceil(RATE_LIMIT_MINUTES - minutesSinceLastSubmit);
+        (window as any).showToast(
+          `Por favor, espera ${remainingMinutes} minuto(s) antes de enviar otro mensaje.`,
+          'error'
+        );
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function updateRateLimit(): void {
+    localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
+  }
 
   function getFormData(): Record<string, string> {
     const formData = new FormData(form);
@@ -296,14 +336,19 @@ const serviceTypes = [
   async function handleSubmit(e: Event): Promise<void> {
     e.preventDefault();
 
-    if (honeypotField && honeypotField.value) {
-      console.log('Honeypot filled - spam detected, preventing submission');
+    const honeypotFields = form.querySelectorAll('[name^="_honeypot"]') as NodeListOf<HTMLInputElement>;
+    const isHoneypotFilled = Array.from(honeypotFields).some(field => field.value);
+
+    if (isHoneypotFilled) {
       return;
     }
 
     const timeSinceLoad = Date.now() - formLoadTime;
     if (timeSinceLoad < 3000) {
-      console.log('Form submitted too quickly - possible bot, preventing submission');
+      return;
+    }
+
+    if (!checkRateLimit()) {
       return;
     }
 
@@ -341,20 +386,18 @@ const serviceTypes = [
       });
 
       const data = await response.json();
-      console.log('Response:', data);
 
       if (response.ok && data.success) {
+        updateRateLimit();
         (window as any).showToast('¡Mensaje enviado correctamente!', 'success');
         form.reset();
         validatedFields.clear();
         hasAttemptedSubmit = false;
         formLoadTime = Date.now();
       } else {
-        console.error('Response error:', data);
         (window as any).showToast('Error al enviar el mensaje. Por favor, inténtalo de nuevo.', 'error');
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
       (window as any).showToast('Error al enviar el mensaje. Por favor, inténtalo de nuevo.', 'error');
     } finally {
       submitButton.disabled = false;
