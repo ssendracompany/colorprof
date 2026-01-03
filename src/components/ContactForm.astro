@@ -85,6 +85,54 @@ const serviceTypes = [
           ></textarea>
         </div>
 
+        <!-- Información básica sobre Protección de Datos -->
+        <div class="data-protection-info">
+          <h4 class="data-protection-title">🔒 Información básica sobre Protección de Datos</h4>
+          <p class="data-protection-text">
+            <strong>Responsable:</strong> Aplicaciones de pintura Colorprof S.L.<br>
+            <strong>Finalidad:</strong> Gestionar la solicitud de presupuesto/consulta y el contacto profesional.<br>
+            <strong>Legitimación:</strong> Consentimiento del interesado.<br>
+            <strong>Destinatarios:</strong> No se cederán datos a terceros, salvo obligación legal.<br>
+            <strong>Derechos:</strong> Acceder, rectificar y suprimir los datos, y otros derechos como se explica en la Política de Privacidad.
+          </p>
+        </div>
+
+        <!-- CHECKBOX OBLIGATORIO - Política de Privacidad (RGPD Art. 6.1.a) -->
+        <div class="form-group form-group-checkbox">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              id="acepto_privacidad"
+              name="acepto_privacidad"
+              class="form-checkbox"
+              required
+              aria-required="true"
+            />
+            <span class="checkbox-text">
+              He leído y acepto la
+              <a href="/privacidad" target="_blank" rel="noopener noreferrer" class="privacy-link">
+                Política de Privacidad
+              </a>
+              <span class="required-star">*</span>
+            </span>
+          </label>
+        </div>
+
+        <!-- CHECKBOX OPCIONAL - Comunicaciones Comerciales (LSSI-CE Art. 21) -->
+        <div class="form-group form-group-checkbox">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              id="acepto_comunicaciones"
+              name="acepto_comunicaciones"
+              class="form-checkbox"
+            />
+            <span class="checkbox-text">
+              Deseo recibir información comercial de Colorprof sobre servicios, promociones y novedades (opcional)
+            </span>
+          </label>
+        </div>
+
         <!-- FormSubmit Configuration (hidden fields) -->
         <input type="hidden" name="_captcha" value="true" />
         <input type="hidden" name="_next" value="https://colorprof.es/" />

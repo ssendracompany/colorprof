@@ -197,7 +197,7 @@ select:focus-visible {
   outline-offset: 2px;
 }
 
-input,
+input:not([type="checkbox"]):not([type="radio"]),
 textarea,
 select {
   width: 100%;
@@ -209,20 +209,20 @@ select {
   transition: border-color var(--transition-base), box-shadow var(--transition-base);
 }
 
-input:hover,
+input:not([type="checkbox"]):not([type="radio"]):hover,
 textarea:hover,
 select:hover {
   border-color: var(--color-border-light);
 }
 
-input:focus,
+input:not([type="checkbox"]):not([type="radio"]):focus,
 textarea:focus,
 select:focus {
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.1);
 }
 
-input::placeholder,
+input:not([type="checkbox"]):not([type="radio"])::placeholder,
 textarea::placeholder {
   color: var(--color-text-tertiary);
 }
