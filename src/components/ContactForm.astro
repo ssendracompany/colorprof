@@ -33,12 +33,14 @@ const serviceTypes = [
           <input
             type="email"
             id="email"
-            name="_replyto"
+            name="email"
             class="form-input"
             placeholder="tu.email@ejemplo.com"
             required
             aria-required="true"
           />
+          <!-- Campo oculto para configurar reply-to en FormSubmit.co -->
+          <input type="hidden" name="_replyto" id="email-replyto" />
         </div>
 
         <div class="form-group">
@@ -154,11 +156,22 @@ const serviceTypes = [
     const formData = new FormData(form);
     return {
       nombre: formData.get('name') as string || '',
-      email: formData.get('_replyto') as string || '',
+      email: formData.get('email') as string || '',
       telefono: formData.get('phone') as string || '',
       servicio: formData.get('service') as string || '',
       mensaje: formData.get('message') as string || ''
     };
+  }
+
+  function syncEmailToReplyTo(): void {
+    const emailField = form.querySelector('#email') as HTMLInputElement;
+    const replyToField = form.querySelector('#email-replyto') as HTMLInputElement;
+
+    if (emailField && replyToField) {
+      emailField.addEventListener('input', () => {
+        replyToField.value = emailField.value;
+      });
+    }
   }
 
   function showFieldError(fieldName: string, message: string): void {
@@ -318,6 +331,7 @@ const serviceTypes = [
   function initFormValidation(): void {
     if (!form) return;
 
+    syncEmailToReplyTo();
     form.addEventListener('submit', handleSubmit);
 
     const fields = ['name', 'email', 'phone', 'service', 'message'];
