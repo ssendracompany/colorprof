@@ -18,8 +18,8 @@ export const contactFormSchema = z.object({
   telefono: z.string()
     .optional()
     .refine(
-      val => !val || /^(\+34|0034)?[\s.-]?[6-9]\d{2}[\s.-]?\d{3}[\s.-]?\d{3}$/.test(val),
-      "Por favor, introduce un número de teléfono español válido (ej: +34 600 123 456)"
+      val => !val || /^\d{9}$/.test(val),
+      "El teléfono debe tener exactamente 9 dígitos"
     ),
 
   servicio: z.enum([
