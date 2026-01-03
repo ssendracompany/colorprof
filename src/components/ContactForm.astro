@@ -1,5 +1,6 @@
 ---
 import '@/styles/components/contact.css';
+import Toast from './Toast.astro';
 
 const serviceTypes = [
   'Pintura Interior',
@@ -50,7 +51,7 @@ const serviceTypes = [
             id="phone"
             name="phone"
             class="form-input"
-            placeholder="Ej: +34 600 123 456"
+            placeholder="Ej: 600 123 456"
           />
         </div>
 
@@ -138,6 +139,8 @@ const serviceTypes = [
     </div>
   </div>
 </section>
+
+<Toast />
 
 <script>
   import { validateContactForm } from '../utils/contactFormValidation';
@@ -289,7 +292,7 @@ const serviceTypes = [
     return true;
   }
 
-  function handleSubmit(e: Event): void {
+  async function handleSubmit(e: Event): Promise<void> {
     e.preventDefault();
 
     if (honeypotField && honeypotField.value) {
@@ -311,7 +314,42 @@ const serviceTypes = [
     submitButton.disabled = true;
     submitButton.textContent = 'Enviando...';
 
-    form.submit();
+    try {
+      const formDataObj = new FormData(form);
+      const formDataJson: Record<string, string> = {};
+
+      formDataObj.forEach((value, key) => {
+        formDataJson[key] = value.toString();
+      });
+
+      const response = await fetch('https://formsubmit.co/ajax/info@colorprof.es', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formDataJson)
+      });
+
+      const data = await response.json();
+      console.log('Response:', data);
+
+      if (response.ok && data.success) {
+        (window as any).showToast('¡Mensaje enviado correctamente!', 'success');
+        form.reset();
+        validatedFields.clear();
+        hasAttemptedSubmit = false;
+      } else {
+        console.error('Response error:', data);
+        (window as any).showToast('Error al enviar el mensaje. Por favor, inténtalo de nuevo.', 'error');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      (window as any).showToast('Error al enviar el mensaje. Por favor, inténtalo de nuevo.', 'error');
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Enviar Solicitud';
+    }
   }
 
   function handleFieldBlur(e: Event): void {
