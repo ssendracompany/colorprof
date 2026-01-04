@@ -133,7 +133,7 @@
   color: var(--color-accent);
 }
 
-/* Footer Bottom */
+/* Footer Bottom - Mobile First (Stacked, Centered) */
 .footer-bottom {
   display: flex;
   flex-direction: column;
@@ -142,29 +142,67 @@
   text-align: center;
 }
 
+.footer-bottom-left,
+.footer-bottom-center,
+.footer-bottom-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .footer-copyright {
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
   margin: 0;
+  font-weight: normal;
+  line-height: inherit;
+  opacity: 1;
+}
+
+.footer-developer {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  margin: 0;
+  font-weight: normal;
+  line-height: inherit;
+  opacity: 0.65;
+}
+
+.footer-developer a {
+  color: var(--color-text-tertiary) !important;
+  text-decoration: none;
+  transition: all var(--transition-base);
+  font-size: inherit;
+  font-weight: normal;
+  font-family: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  opacity: 1;
+}
+
+.footer-developer a:hover {
+  color: var(--color-accent) !important;
+  opacity: 1;
+  text-decoration: underline;
 }
 
 /* Footer Legal Links */
 .footer-legal {
   display: flex;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .footer-legal a {
-  color: var(--color-text-tertiary);
+  color: var(--color-text-tertiary) !important;
   text-decoration: none;
   font-size: var(--font-size-sm);
   transition: color var(--transition-base);
 }
 
 .footer-legal a:hover {
-  color: var(--color-accent);
+  color: var(--color-accent) !important;
 }
 
 /* Tablet: 840px and up */
@@ -183,19 +221,32 @@
     margin-bottom: var(--spacing-3xl);
   }
 
+  /* 3-Column Layout for Footer Bottom */
   .footer-bottom {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     text-align: left;
+    gap: var(--spacing-lg);
   }
 
-  .footer-copyright {
-    margin: 0;
+  .footer-bottom-left {
+    justify-content: flex-start;
+    flex: 1;
+  }
+
+  .footer-bottom-center {
+    justify-content: center;
+    flex: 1;
+  }
+
+  .footer-bottom-right {
+    justify-content: flex-end;
+    flex: 1;
   }
 
   .footer-legal {
-    justify-content: flex-end;
+    gap: var(--spacing-sm);
   }
 }
 
@@ -230,7 +281,8 @@
 @media (prefers-reduced-motion: reduce) {
   .social-link,
   .footer-links a,
-  .footer-legal a {
+  .footer-legal a,
+  .footer-developer a {
     transition: none;
   }
 }
