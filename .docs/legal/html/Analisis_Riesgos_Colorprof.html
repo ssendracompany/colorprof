@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Riesgos y Medidas de Seguridad - Colorprof S.L.</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            @page { margin: 2cm; }
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            color: #333;
+            background: #fff;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            font-size: 1.8em;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 20px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #bdc3c7;
+            margin: 30px 0;
+        }
+        ul, ol {
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        ul ul {
+            margin-top: 8px;
+        }
+        strong {
+            color: #2c3e50;
+        }
+        .highlight {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .conclusion {
+            background: #d5edda;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🛡️ ANÁLISIS DE RIESGOS Y MEDIDAS DE SEGURIDAD (AR)</h1>
+    <p class="subtitle"><strong>Entidad:</strong> Aplicaciones de pintura Colorprof S.L.</p>
+
+    <hr>
+
+    <h2>1. IDENTIFICACIÓN DE ACTIVOS Y AMENAZAS</h2>
+
+    <h3>Activos Principales</h3>
+    <ul>
+        <li>Base de datos de correos electrónicos y presupuestos (alojada en Don Dominio).</li>
+        <li>Documentación laboral y fiscal (física y digital).</li>
+        <li>Sitio web (Frontend en Vercel).</li>
+    </ul>
+
+    <h3>Amenazas Detectadas</h3>
+    <ol>
+        <li><strong>Acceso no autorizado al correo electrónico:</strong> Riesgo de phishing o robo de credenciales en Don Dominio.</li>
+        <li><strong>Pérdida de información:</strong> Fallo en equipos locales o servidores.</li>
+        <li><strong>Acceso indebido por personal interno/externo:</strong> Visualización de datos confidenciales por trabajadores o desarrolladores externos sin autorización.</li>
+        <li><strong>Intercepción de datos en la web:</strong> Captura de datos de formularios.</li>
+    </ol>
+
+    <hr>
+
+    <h2>2. EVALUACIÓN DEL RIESGO</h2>
+    <div class="highlight">
+        <p>Dado el volumen de datos (bajo/medio) y la tipología (datos básicos de contacto y facturación, sin datos sensibles a gran escala), el <strong>Nivel de Riesgo se considera BAJO/MEDIO</strong>.</p>
+    </div>
+
+    <hr>
+
+    <h2>3. MEDIDAS DE SEGURIDAD IMPLEMENTADAS Y PLANIFICADAS</h2>
+    <p>Para mitigar los riesgos anteriores, se establecen las siguientes medidas técnicas y organizativas:</p>
+
+    <h3>A. Medidas Técnicas (Ciberseguridad)</h3>
+    <ol>
+        <li><strong>Certificado SSL/TLS:</strong> La web en <strong>Vercel</strong> utiliza protocolo seguro HTTPS para cifrar las comunicaciones del formulario.</li>
+        <li><strong>Seguridad en el Correo (Don Dominio):</strong>
+            <ul>
+                <li>Uso de contraseñas robustas (alfanuméricas).</li>
+                <li><em>Planificada:</em> Activación de Autenticación de Doble Factor (2FA) en panel de control y webmail (si disponible).</li>
+            </ul>
+        </li>
+        <li><strong>Dispositivos y Antivirus:</strong> Los equipos de la empresa cuentan con software antivirus actualizado y sistema operativo con licencias vigentes.</li>
+        <li><strong>Copias de Seguridad:</strong> Se realizan copias periódicas de la documentación crítica administrativa.</li>
+    </ol>
+
+    <h3>B. Medidas Organizativas (Personas y Procesos)</h3>
+    <ol>
+        <li><strong>Control de Accesos:</strong>
+            <ul>
+                <li><strong>Trabajadores:</strong> Solo acceden a los datos estrictamente necesarios para su función (ej. dirección de obra, contacto cliente).</li>
+                <li><strong>Desarrollador Web:</strong> Acceso restringido y puntual para tareas de mantenimiento. No está autorizado a extraer bases de datos.</li>
+            </ul>
+        </li>
+        <li><strong>Compromiso de Confidencialidad:</strong>
+            <ul>
+                <li>Se firma cláusula de confidencialidad con los <strong>empleados</strong> en sus contratos.</li>
+                <li>Se dispone de contrato de Encargado de Tratamiento (o cláusula equivalente) con la <strong>Asesoría</strong> y el <strong>Desarrollador Web</strong>, obligándoles a guardar secreto profesional.</li>
+            </ul>
+        </li>
+        <li><strong>Gestión de Papel:</strong> La documentación en papel (facturas, contratos) se guarda en archivadores bajo llave o custodia en la oficina, no accesible a público general.</li>
+    </ol>
+
+    <hr>
+
+    <h2>4. CONCLUSIÓN</h2>
+    <div class="conclusion">
+        <p>Aplicando estas medidas, la organización considera que el riesgo residual es aceptable y garantiza la confidencialidad, integridad y disponibilidad de los datos personales.</p>
+    </div>
+</body>
+</html>
