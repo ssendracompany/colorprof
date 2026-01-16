@@ -45,7 +45,7 @@ Se identifican los siguientes proveedores externos que pueden acceder a datos pe
 
 1.  **Hosting Web:** Vercel Inc. (Alojamiento de la web).
 2.  **Correo Electrónico y Dominio:** Soluciones Corporativas IP, S.L. (Don Dominio). Proveedor de servicios de email.
-3.  **Asesoría Fiscal/Laboral:** [NOMBRE DE LA ASESORÍA]. Acceso a datos de facturación y empleados para gestión de impuestos y nóminas.
+3.  **Asesoría Fiscal/Laboral:** Inova Assessors S.L. (CIF: B97250534). Acceso a datos de facturación y empleados para gestión de impuestos y nóminas.
 4.  **Mantenimiento Web:** Aitor Reviriego Amor. Acceso puntual para soporte técnico y mantenimiento de la web.
 5.  **Analítica Web:** Google Ireland Ltd. (Google Analytics). Datos estadísticos anonimizados.
 
