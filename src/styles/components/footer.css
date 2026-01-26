@@ -67,10 +67,19 @@
   font-size: var(--font-size-sm);
 }
 
+.social-link svg {
+  transition: all var(--transition-base);
+}
+
 .social-link:hover {
   background: var(--gradient-primary);
   border-color: var(--color-accent);
   color: white;
+  transform: translateY(-2px);
+}
+
+.social-link:hover svg {
+  stroke: white;
 }
 
 /* Footer Heading */
